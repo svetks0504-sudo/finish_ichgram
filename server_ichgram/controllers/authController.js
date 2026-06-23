@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ export const registerUser = async (req, res) => {
       email,
       fullName,
       username,
-      password,
+      password: hashedPassword,
     });
     res.status(201).json({
       message: "Created successeful!",
@@ -129,6 +130,7 @@ export const forgotPassUser = async (req, res) => {
       success: true,
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       message: "Server error",
       success: false,
