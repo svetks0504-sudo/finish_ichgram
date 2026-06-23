@@ -90,7 +90,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const forgotPass = async (req, res) => {
+export const forgotPassUser = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -120,7 +120,7 @@ export const forgotPass = async (req, res) => {
       from: "myappnoreply64@gmail.com",
       to: email,
       subject: "Reset Password",
-      html: `<a href="http://localhost:${process.env.PORT}/reset?token=${token}">
+      html: `<a href="${process.env.CLIENT_URL}/reset-password?token=${token}">
            Reset password
          </a>`,
     });
@@ -132,6 +132,41 @@ export const forgotPass = async (req, res) => {
     return res.status(500).json({
       message: "Server error",
       success: false,
+    });
+  }
+};
+
+export const resetPassUser = async (req, res) => {
+  try {
+    const { password } = req.body;
+     const { token } = req.query;
+    if (!password) {
+      return res.status(400).json({
+        message: "Password  is requered!",
+      });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      message: "Password is successful reseted",
+      success: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
     });
   }
 };
