@@ -81,6 +81,12 @@ export const loginUser = async (req, res) => {
       message: "Login successful",
       success: true,
       token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        fullName: user.fullName,
+      },
     });
   } catch (error) {
     res.status(500).json({
@@ -141,7 +147,7 @@ export const forgotPassUser = async (req, res) => {
 export const resetPassUser = async (req, res) => {
   try {
     const { password } = req.body;
-     const { token } = req.query;
+    const { token } = req.query;
     if (!password) {
       return res.status(400).json({
         message: "Password  is requered!",
@@ -155,7 +161,7 @@ export const resetPassUser = async (req, res) => {
         success: false,
       });
     }
-    const hashedPassword = await bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     user.password = hashedPassword;
     await user.save();
