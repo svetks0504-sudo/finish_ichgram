@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-top: 6vw;
+  gap: 2vw;
+}
+.formContainer {
+    width: 24vw;
+  border: 1px solid rgba(219, 219, 219, 1);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vw;
+  padding: 2.8vw;
+}

@@ -1,2 +1,6 @@
-function ForgotPass(){}
+function ForgotPass(){
+    return(
+        <></>
+    )
+}
 export default ForgotPass;

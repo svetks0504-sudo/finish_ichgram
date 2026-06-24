@@ -1,2 +1,6 @@
-function ResetPass(){}
+function ResetPass(){
+    return(
+        <></>
+    )
+}
 export default ResetPass;
