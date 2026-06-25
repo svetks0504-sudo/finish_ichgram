@@ -1,16 +1,39 @@
 .container {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   padding-top: 6vw;
   gap: 2vw;
 }
+.rightContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+}
+.loginImg{
+  height: 41vw;
+  width: 26vw;
+}
 .formContainer {
-    width: 24vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24vw;
   border: 1px solid rgba(219, 219, 219, 1);
+  padding: 2vw 2.8vw;
 }
 .form {
   display: flex;
   flex-direction: column;
   gap: 0.8vw;
-  padding: 2.8vw;
+  width: 100%;
+}
+.link {
+  color: rgba(0, 55, 107, 1);
+  text-decoration: none;
+  margin-top: auto;
+  margin-top: 5vw;
+}
+.serverError{
+  color: red;
 }

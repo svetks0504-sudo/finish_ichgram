@@ -1,13 +1,19 @@
 import styles from "./styles.module.css";
 import InputUniversal from "../../components/input";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/slices/authSlice";
 import Btn from "../../components/button";
+import OrElement from "../../components/orElement";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import ImgLogo from "../../components/imgLogo";
+import BottomContainer from "../../components/bottomContainer";
 
 const loginFields = [
   {
-    name: "username",
+    name: "login",
     type: "text",
     placeholder: "Username or email",
     rules: {
@@ -34,13 +40,21 @@ const loginFields = [
 
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { error, isAuthenticated } = useSelector((state) => state.auth);
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   const onSubmit = async (data) => {
     await dispatch(loginUser(data));
@@ -53,19 +67,28 @@ function Login() {
         src="src/assets/images/background.png"
         alt="icons"
       />
-      <div className={styles.formContainer}>
-        <form className={styles.form}
-        onSubmit={handleSubmit(onSubmit)}>
-          <InputUniversal
-            arr={loginFields}
-            register={register}
-            errors={errors}
-          />
-
-          <Btn
-           titleBtn="Log in" 
-           htmlType="submit" />
-        </form>
+      <div className={styles.rightContainer}>
+        <div className={styles.formContainer}>
+          <ImgLogo width={"13vw"} height={"7.4vw"} />
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <InputUniversal
+              arr={loginFields}
+              control={control}
+              errors={errors}
+            />
+            <Btn titleBtn={"Log in"} htmlType={"submit"} />
+            {error && <p className={styles.serverError}>{error}</p>}
+          </form>
+          <OrElement />
+          <Link className={styles.link} to="/forgot-password">
+            Forgot password?
+          </Link>
+        </div>
+        <BottomContainer
+          text={"Don't have an account? "}
+          to={"/register"}
+          title={"Sign up"}
+        />
       </div>
     </div>
   );

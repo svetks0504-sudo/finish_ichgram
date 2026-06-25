@@ -2,8 +2,13 @@ import Btn from "../../components/button";
 import styles from "./styles.module.css";
 import { useForm } from "react-hook-form";
 import InputUniversal from "../../components/input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/slices/authSlice";
+import ImgLogo from "../../components/imgLogo";
+import { Link } from "react-router-dom";
+import BottomContainer from "../../components/bottomContainer";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const registerFields = [
   {
@@ -46,13 +51,21 @@ const registerFields = [
 
 function Registration() {
   const dispatch = useDispatch();
+  const { error, successMessage } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
+
+  useEffect(() => {
+    if (successMessage !== null) {
+      navigate("/login");
+    }
+  }, [successMessage, navigate]);
 
   const onSubmit = async (data) => {
     await dispatch(registerUser(data));
@@ -61,18 +74,59 @@ function Registration() {
 
   return (
     <div className={styles.container}>
-     
-      <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <InputUniversal
-            arr={registerFields}
-            register={register}
-            errors={errors}
-          />
+      <div className={styles.containTop}>
+        <ImgLogo width={"13vw"} height={"7.4vw"} />
+        <h3 className={styles.textCont}>
+          Sign up to see photos and videos from your friends.
+        </h3>
 
-          <Btn titleBtn="Sign up" htmlType="submit" />
-        </form>
+        <div className={styles.formContainer}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <InputUniversal
+              arr={registerFields}
+              control={control}
+              errors={errors}
+            />
+
+            <div className={styles.linkWithText}>
+              <p>
+                People who use our service may have uploaded your contact
+                information to Instagram.
+                <Link className={styles.link} to="/learn-more">
+                  {" "}
+                  Learn More
+                </Link>
+              </p>
+
+              <p>
+                By signing up, you agree to our
+                <Link className={styles.link} to="/terms">
+                  {" "}
+                  Terms
+                </Link>
+                ,
+                <Link className={styles.link} to="/privacy">
+                  {" "}
+                  Privacy Policy{" "}
+                </Link>
+                and
+                <Link className={styles.link} to="/cookies">
+                  {" "}
+                  Cookies Policy
+                </Link>
+                .
+              </p>
+            </div>
+            <Btn titleBtn={"Sign up"} htmlType={"submit"} widthBtn={"100%"} />
+            {error && <p className={styles.serverError}>{error}</p>}
+          </form>
+        </div>
       </div>
+      <BottomContainer
+        text={"Have an account? "}
+        to={"/login"}
+        title={"Log in "}
+      />
     </div>
   );
 }

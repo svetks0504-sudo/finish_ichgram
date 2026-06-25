@@ -1,0 +1,13 @@
+.bottomContainer{
+   border: 1px solid rgba(219, 219, 219, 1);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 2vw 0;
+   gap: 0.5vw;
+   width: 100%;
+}
+.linkSign{
+  color: rgba(0, 149, 246, 1);
+  text-decoration: none;
+}
