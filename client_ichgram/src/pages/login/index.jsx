@@ -77,7 +77,7 @@ function Login() {
               errors={errors}
             />
             <Btn titleBtn={"Log in"} htmlType={"submit"} />
-            {error && <p className={styles.serverError}>{error}</p>}
+            {error && <h5 className={styles.serverError}>{error}</h5>}
           </form>
           <OrElement />
           <Link className={styles.link} to="/forgot-password">

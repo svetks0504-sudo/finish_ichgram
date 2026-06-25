@@ -1,0 +1,20 @@
+.containerFoot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3vw;
+  color: rgba(115, 115, 115, 1);
+   margin-bottom: 6vw;
+}
+.linksContainrt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3vw;
+}
+.link{
+ font-size: 1.3rem;
+  color: rgba(115, 115, 115, 1);
+  text-decoration: none;
+}

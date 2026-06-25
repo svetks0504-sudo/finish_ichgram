@@ -27,6 +27,7 @@
   flex-direction: column;
   gap: 0.8vw;
   width: 100%;
+  margin-bottom: 1.5vw;
 }
 .link {
   color: rgba(0, 55, 107, 1);

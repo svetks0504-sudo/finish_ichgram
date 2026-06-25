@@ -118,7 +118,7 @@ function Registration() {
               </p>
             </div>
             <Btn titleBtn={"Sign up"} htmlType={"submit"} widthBtn={"100%"} />
-            {error && <p className={styles.serverError}>{error}</p>}
+            {error && <h5 className={styles.serverError}>{error}</h5>}
           </form>
         </div>
       </div>

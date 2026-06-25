@@ -101,13 +101,15 @@ export const loginUser = async (req, res) => {
 
 export const forgotPassUser = async (req, res) => {
   try {
-    const { email } = req.body;
-    if (!email) {
+    const { login } = req.body;
+    if (!login) {
       return res.status(400).json({
-        message: "Email is requered!",
+        message: "Email or username is required!",
       });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ 
+      $or: [{username: login}, {email: login}]
+     });
     if (!user)
       return res.status(404).json({
         message: "User not found!",
@@ -126,8 +128,8 @@ export const forgotPassUser = async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: "myappnoreply64@gmail.com",
-      to: email,
+      from: process.env.EMAIL,
+      to: user.email,
       subject: "Reset Password",
       html: `<a href="${process.env.CLIENT_URL}/reset-password?token=${token}">
            Reset password

@@ -1,0 +1,14 @@
+.notFound{
+    display: flex;
+    padding: 6.5vw 0 10vw 1.5vw;
+    gap: 3vw;
+}
+h6{
+    font-size: 36px;
+}
+.greyText{
+    color: rgba(115, 115, 115, 1);
+    margin-top: 0.6vw;
+    width: 31.5vw;
+    line-height: 1.1;
+}

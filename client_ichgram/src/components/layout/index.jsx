@@ -1,16 +1,18 @@
 import styles from "./styles.module.css";
 import { Outlet } from "react-router-dom";
-import Menu from "../menu"
+import MenuLeft from "../menuLeft";
 import Footer from "../footer";
 
-function Layout() {
+
+
+function Layout({manuArr}) {
   return (
     <div className={styles.layout}>
       <main>
-        <Menu />
+        <MenuLeft arr={manuArr}/>
         <Outlet />
       </main>
-      <Footer />
+      <Footer arr={manuArr}/>
     </div>
   );
 }

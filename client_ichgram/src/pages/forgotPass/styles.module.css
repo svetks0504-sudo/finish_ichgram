@@ -1,0 +1,52 @@
+.forgotPassTop{
+    border-bottom: 1px solid rgba(219, 219, 219, 1);
+    padding-left: 3vw;
+    margin-bottom: 6vw;
+}
+.containerForgotPass {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 27vw;
+    margin: 0 auto;
+    border: 1px solid rgba(219, 219, 219, 1);
+    padding: 2vw 3vw 6vw 3vw;
+    gap: 1vw;
+}
+.imgTroubleloggingin{
+    width: 96px;
+    height: 96px;
+}
+.textGrey{
+    color: rgba(115, 115, 115, 1);
+}
+.forma{
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    width: 100%;
+}
+.serverError{
+    color: red;
+}
+.sucessError{
+    color: rgb(13, 189, 13);
+}
+.link{
+    text-decoration: none;
+    color: rgba(38, 38, 38, 1);
+    font-weight: 500;
+}
+.bottomCont{
+    border: 1px solid rgba(219, 219, 219, 1);
+    border-top: none;
+    background-color: rgba(250, 250, 250, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 27vw;
+    margin: 0 auto;
+    padding: 1vw;
+}
