@@ -52,3 +52,88 @@
 Passwords do not match
 і react-hook-form автоматично покаже цю помилку через:
 errors.passwordRepeat.message.
+
+
+6. це не робила вяза з бібліотеки однакові меню,
+ використала один масив, дала їм однакові ключі:
+   const items = arr.map((elem) => ({
+    key: elem.link,
+    label: elem.title,
+  }));
+
+Потім: 
+import { useLocation, useNavigate } from "react-router-dom";
+const location = useLocation();
+const navigate = useNavigate();
+  const onClick = ({key}) => {
+    navigate(key);
+  };
+  в параметр 
+  <Menu
+ selectedKeys={[location.pathname]}
+  onClick={onClick}></Menu>
+
+Як це працює разом
+menuArr
+   ↓
+items (key = link)
+   ↓
+Menu
+   ↓
+натискання
+   ↓
+onClick
+   ↓
+navigate(key)
+   ↓
+URL змінюється
+   ↓
+location.pathname змінюється
+   ↓
+selectedKeys підсвічує активний пункт
+
+Саме тому обидва меню синхронізуються автоматично: вони дивляться на один і той самий location.pathname
+
+
+
+useLocation()
+Він повертає інформацію про поточний маршрут.
+const location = useLocation();
+це {
+  pathname: "/reset",
+  search: "?token=abc123",
+  hash: "",
+  state: null
+}
+тому location.pathname Він поверне: /reset
+selectedKeys={[location.pathname]}
+і меню зрозуміє, що зараз активний маршрут /reset.
+
+useSearchParams(); він працює тільки з тим, що після ?.
+const [searchParams] = useSearchParams();
+const token = searchParams.get("token");
+Він подивиться сюди:
+?token=abc123
+і поверне:
+abc123
+Якщо URL такий
+/profile?id=25&sort=new
+то
+const [searchParams] = useSearchParams();
+searchParams.get("id");
+поверне
+25
+а
+searchParams.get("sort");
+поверне
+new
+💡 Запам'ятати можна так:
+
+useLocation() → де я зараз знаходжуся? (/profile, /login, /explore).
+useSearchParams() → які параметри передали в URL? (token, id, page, sort).
+
+Саме тому для підсвічування меню використовують useLocation(), 
+а для відновлення пароля — useSearchParams(), 
+бо токен передається як параметр після ?.
+
+Зробила синхронізацію цих меню за дією, для цього додала в масив кей і стався збій.

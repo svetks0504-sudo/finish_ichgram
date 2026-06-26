@@ -5,16 +5,14 @@
   align-items: center;
   gap: 3vw;
   color: rgba(115, 115, 115, 1);
-   margin-bottom: 6vw;
+  margin-bottom: 6vw;
 }
-.linksContainrt {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3vw;
+.linksContainer {
+  border: none !important;
 }
-.link{
- font-size: 1.3rem;
+.linksContainer :global(.ant-menu-item) {
   color: rgba(115, 115, 115, 1);
-  text-decoration: none;
+}
+.linksContainer :global(.ant-menu-item::after) {
+  border-bottom: none !important;
 }
