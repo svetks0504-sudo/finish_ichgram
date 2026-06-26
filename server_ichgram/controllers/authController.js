@@ -131,7 +131,7 @@ export const forgotPassUser = async (req, res) => {
       from: process.env.EMAIL,
       to: user.email,
       subject: "Reset Password",
-      html: `<a href="${process.env.CLIENT_URL}/reset-password?token=${token}">
+      html: `<a href="${process.env.CLIENT_URL}/reset?token=${token}">
            Reset password
          </a>`,
     });
@@ -150,11 +150,18 @@ export const forgotPassUser = async (req, res) => {
 
 export const resetPassUser = async (req, res) => {
   try {
-    const { password } = req.body;
+    const { password, passwordRepeat } = req.body;
     const { token } = req.query;
-    if (!password) {
+    if (!password || !passwordRepeat) {
       return res.status(400).json({
-        message: "Password  is requered!",
+        message: "Password and repeat password  are required!",
+        success: false,
+      });
+    }
+    if(password !== passwordRepeat){
+      return res.status(400).json({
+        message: "Passwords do not match!",
+        success: false,
       });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -171,7 +178,7 @@ export const resetPassUser = async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: "Password is successful reseted",
+      message: "Password has been reset successfully.",
       success: true,
     });
   } catch (error) {

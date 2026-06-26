@@ -70,7 +70,7 @@ function App() {
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
-        <Route path="/reset-password" element={<ResetPass />} />
+        <Route path="/reset" element={<ResetPass />} />
         <Route path="/" element={<Layout manuArr={manuArr} />}>
           <Route index element={<Home />} />
           {manuArr

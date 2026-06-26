@@ -10,3 +10,45 @@
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
+
+4. я в шлях для відновлення пароля додала токен, потім на клієнті його дістала і відправила на провірку на бекенді, за цим бекенд знає який пароль відновлювати.
+1. Користувач вводить email або username
+            ↓
+2. Бекенд знаходить користувача
+            ↓
+3. Бекенд створює JWT, в якому є id користувача
+            ↓
+4. Надсилає лист:
+   /reset-password?token=JWT
+            ↓
+5. Користувач переходить за посиланням
+            ↓
+6. React відкриває сторінку reset-password
+            ↓
+7. React читає token з URL
+            ↓
+8. React відправляє:
+   {
+     password,
+     passwordRepeat
+   }
+   + token
+            ↓
+9. Бекенд робить:
+   jwt.verify(token)
+            ↓
+10. Отримує:
+    { id: user._id }
+            ↓
+11. User.findById(id)
+            ↓
+12. Замінює пароль
+
+
+5.  watch додала щоб додати валідацію validate: (value) =>
+      value === watch("password") || "Passwords do not match",
+      watch("password") завжди повертає поточне значення першого поля.
+Якщо користувач ввів різні паролі, validate поверне рядок:
+Passwords do not match
+і react-hook-form автоматично покаже цю помилку через:
+errors.passwordRepeat.message.

@@ -44,11 +44,13 @@ export const forgotPass = createAsyncThunk(
 
 export const resetPass = createAsyncThunk(
   "auth/resetPass",
-  async ({ password, token }, { rejectWithValue }) => {
+  async ({ password, passwordRepeat, token }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/auth/reset-password?token=${token}`,
-        { password },
+        `${BASE_URL}/auth/reset?token=${token}`,
+        { password,
+          passwordRepeat
+         },
       );
       return response.data;
     } catch (error) {
