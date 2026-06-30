@@ -1,0 +1,14 @@
+.modalTopFlex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid rgba(219, 219, 219, 1);
+}
+.modalButton{
+    position: absolute;
+    right: 16px;
+    border: none;
+    color: rgba(0, 149, 246, 1);
+    background-color: aliceblue;
+}

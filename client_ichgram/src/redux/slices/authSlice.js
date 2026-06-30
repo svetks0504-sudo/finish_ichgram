@@ -48,9 +48,7 @@ export const resetPass = createAsyncThunk(
     try {
       const response = await axios.post(
         `${BASE_URL}/auth/reset?token=${token}`,
-        { password,
-          passwordRepeat
-         },
+        { password, passwordRepeat },
       );
       return response.data;
     } catch (error) {
@@ -77,11 +75,11 @@ const fulfilledUser = (state, action) => {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
-    token: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
+    token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem("token") || false,
     successMessage: null,
   },
   reducers: {
@@ -91,6 +89,8 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.isAuthenticated = false;
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -106,6 +106,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.isAuthenticated = true;
+        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, rejectedUser);
 

@@ -4,6 +4,8 @@ import connectDB from "./db/index.js";
 import { connect } from "mongoose";
 import authRouter from "./routes/auth.js"
 import postRouter from "./routes/post.js";
+import likeRouter from "./routes/like.js";
+import commentsRouter from "./routes/comment.js";
 import cors from "cors";
 
 
@@ -18,6 +20,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/posts", postRouter);
+app.use("/like", likeRouter);
+app("/comments", commentsRouter);
 
 app.listen(port, () => {
   connectDB(db_uri);

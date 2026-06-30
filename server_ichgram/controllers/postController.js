@@ -1,8 +1,10 @@
 import Post from "../models/Post.js";
+import Comments from "../models/Comment.js";
+import Like from "../models/Like.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ userId: req.user._id });
+    const posts = await Post.find({ userId: req.user._id }).sort({ createdAt: -1 });
 
     res.status(200).json({
       message: "Posts retrieved successfully",
@@ -52,6 +54,18 @@ export const createPost = async (req, res) => {
 
 export const getPost = async (req, res) => {
   try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "Fetched post successfully",
+      success: true,
+      post,
+    });
   } catch (error) {
     res.status(500).json({
       message: "Server error",
@@ -63,6 +77,32 @@ export const getPost = async (req, res) => {
 
 export const editPost = async (req, res) => {
   try {
+    const { description } = req.body;
+    const imagePaths = req.files?.map((file) => file.filename);
+
+    const post = await Post.findOne({
+      _id: req.params.id,
+      userId: req.user._id,
+    });
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+        success: false,
+      });
+    }
+
+    post.description = description || post.description;
+    if (imagePaths && imagePaths.length > 0) {
+      post.images = imagePaths;
+    }
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Post updated successfully",
+      success: true,
+      post,
+    });
   } catch (error) {
     res.status(500).json({
       message: "Server error",
@@ -74,17 +114,10 @@ export const editPost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
-    const userId = req.user._id;
-    if (!userId) {
-      res.status(404).json({
-        message: "User not found",
-        success: false,
-      });
-    }
     const postId = req.params.id;
     const postDelete = await Post.findOneAndDelete({
       _id: postId,
-      userId: userId,
+      userId: req.user._id,
     });
     if (!postDelete) {
       return res.status(404).json({
@@ -92,12 +125,13 @@ export const deletePost = async (req, res) => {
         success: false,
       });
     }
-    await Comment.deleteMany({ postId });
-    await Like.deleteMany({ postId });
+    await Comments.deleteMany({ postId: postDelete._id });
+    await Like.deleteMany({ postId: postDelete._id });
 
     res.status(200).json({
-      message: `${postDelete} deleted successfully`,
+      message: `Post "${postDelete.description}" deleted successfully`,
       success: true,
+      post: postDelete,
     });
   } catch (error) {
     res.status(500).json({

@@ -137,3 +137,25 @@ useSearchParams() → які параметри передали в URL? (token,
 бо токен передається як параметр після ?.
 
 Зробила синхронізацію цих меню за дією, для цього додала в масив кей і стався збій.
+
+
+
+
+
+
+
+7. проблема перевірки довжини переданих фото, щоб окремо були файли
+import multer from "multer";
+читає multipart/form-data;
+знаходить файли;
+зберігає їх (або в пам'ять);
+додає їх у req.file або req.files.
+
+методи бібліотеки
+upload.single(...)
+upload.array(...)
+upload.fields(...)
+
+тепер файли:
+const { description } = req.body;
+const images = req.files;
