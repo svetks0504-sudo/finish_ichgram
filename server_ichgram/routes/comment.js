@@ -1,4 +1,5 @@
 import express from "express";
+import authJWTMiddleware from "../middleware/auth.js";
 import {
   createComment,
   getComments,
@@ -12,7 +13,7 @@ const router = express.Router();
 router.post("/", authJWTMiddleware, createComment);
 router.get("/", authJWTMiddleware, getComments);
 router.get("/:id", authJWTMiddleware, getComment);
-router.delete("/:id", authJWTMiddleware, editComment);
-router.put("/:id", authJWTMiddleware, deleteComment);
+router.put("/:id", authJWTMiddleware, editComment);
+router.delete("/:id", authJWTMiddleware, deleteComment);
 
 export default router;

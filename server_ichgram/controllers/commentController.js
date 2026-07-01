@@ -1,11 +1,11 @@
-import Post from "../models/Post";
-import Comments from "../models/Comment";
+import Post from "../models/Post.js";
+import Comments from "../models/Comment.js";
 
 export const createComment = async (req, res) => {
   try {
     const { postId, text } = req.body;
     if (!postId || !text) {
-      return res.status(404).json({
+      return res.status(400).json({
         message: "Post ID and text are required",
         success: false,
       });
@@ -37,16 +37,20 @@ export const createComment = async (req, res) => {
     });
   }
 };
+
 export const getComments = async (req, res) => {
   try {
-    const { postId } = req.body;
+    const { postId } = req.query;
     if (!postId) {
-      return res.status(404).json({
+      return res.status(400).json({
         message: "Post ID is required",
         success: false,
       });
     }
-    const comments = await Comments.find({ postId });
+    const comments = await Comments.find({ postId }).populate(
+      "userId",
+      "username avatar",
+    );
     res.status(200).json({
       message: "Comments fetched successfully",
       success: true,
@@ -60,16 +64,20 @@ export const getComments = async (req, res) => {
     });
   }
 };
+
 export const getComment = async (req, res) => {
   try {
-    const { commentId } = req.body;
-    if (!commentId) {
+    const { id } = req.params;
+    if (!id) {
       return res.status(400).json({
-        message: "Comment ID and postId required",
+        message: "Comment ID is required",
         success: false,
       });
     }
-    const comment = await Comments.findById(commentId);
+    const comment = await Comments.findById(id).populate(
+      "userId",
+      "username avatar",
+    );
     if (!comment) {
       return res.status(404).json({
         message: "Comment not found",
@@ -89,8 +97,33 @@ export const getComment = async (req, res) => {
     });
   }
 };
+
 export const editComment = async (req, res) => {
   try {
+    const { text } = req.body;
+    const { id } = req.params;
+    if (!id || !text) {
+      return res.status(400).json({
+        message: "Comment ID and text are required",
+        success: false,
+      });
+    }
+    const comment = await Comments.findOneAndUpdate(
+      { _id: id, userId: req.user._id },
+      { text },
+      { new: true },
+    );
+    if (!comment) {
+      return res.status(404).json({
+        message: "Comment not found",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "Comment updated successfully",
+      success: true,
+      comment,
+    });
   } catch (error) {
     res.status(500).json({
       message: "Server error",
@@ -99,12 +132,25 @@ export const editComment = async (req, res) => {
     });
   }
 };
+
 export const deleteComment = async (req, res) => {
   try {
-    const { postId, commentId } = req.body;
-    if (!postId || !commentId) {
+    const { postId } = req.body;
+    const { id } = req.params;
+    if (!postId || !id) {
       return res.status(400).json({
         message: "Post and comment ID are required",
+        success: false,
+      });
+    }
+    const comment = await Comments.findOneAndDelete({
+      _id: id,
+      postId,
+      userId: req.user._id,
+    });
+    if (!comment) {
+      return res.status(404).json({
+        message: "Comment not found",
         success: false,
       });
     }
@@ -115,22 +161,13 @@ export const deleteComment = async (req, res) => {
         success: false,
       });
     }
-    const comment = await Comments.findOneAndDelete({
-      _id: commentId,
-      postId,
-      userId: req.user._id,
-    });
-    if (!comment) {
-      return res.status(404).json({
-        message: "Comment not found",
-        success: false,
-      });
-    }
+
     post.commentsCount -= 1;
     await post.save();
     res.status(200).json({
       message: "Comment deleted",
       success: true,
+      comment,
     });
   } catch (error) {
     res.status(500).json({

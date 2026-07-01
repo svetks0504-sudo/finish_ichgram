@@ -14,6 +14,8 @@ import NotFound from "./pages/notFound";
 import Explore from "./pages/explore";
 import Message from "./pages/message";
 import Profile from "./pages/profile";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 const manuArr = [
   {
@@ -72,6 +74,7 @@ const manuArr = [
 ];
 
 function App() {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
     <Router>
       <Routes>
@@ -79,7 +82,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
         <Route path="/reset" element={<ResetPass />} />
-        <Route path="/" element={<Layout manuArr={manuArr} />}>
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Layout manuArr={manuArr} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        >
           <Route index element={<Home />} />
           {manuArr
             .filter((elem) => elem.type === "route" && elem.link !== "/")

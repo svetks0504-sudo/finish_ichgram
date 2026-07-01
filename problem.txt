@@ -159,3 +159,79 @@ upload.fields(...)
 тепер файли:
 const { description } = req.body;
 const images = req.files;
+
+8. JSON не вміє передавати файли
+У Redux thunk (або перед axios) ці дані потрібно перетворити в FormData
+в компоненті:
+const onSubmit = (data) => {
+  dispatch(createPost(data));
+};
+
+в слайсі в запиті додала:
+
+    const formData = new FormData();
+
+    formData.append("title", data.title);
+    formData.append("text", data.text);
+    formData.append("image", data.image);
+
+9. Не захистила маршрути в 
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+<Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Layout manuArr={manuArr} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        >
+
+        і створила authMiddleware middleware
+
+
+
+10. Upload жив своїм життям. Він зберігав власний fileList всередині.
+Що я додав
+fileList={(field.value || []).map((file, index) => ({
+  uid: index,
+  name: file.name,
+  status: "done",
+  originFileObj: file,
+}))}
+Upload більше не має власого стану.
+
+
+
+11. В базі лише назви а щоб дістати фото треба 
+post.images.map((image) => (
+  <img
+    key={image}
+    src={`http://localhost:3333/uploads/${image}`}
+  />
+))
+
+а на сервері app.use("/uploads", express.static("uploads"));
+дати доступ до фала де лежать фото
+
+React
+   │
+   │ await axios.get("/posts")
+   ▼
+отримав пости
+   │
+   ▼
+рендерить <img src="...">
+   │
+   ▼
+Браузер автоматично
+робить GET /uploads/cat.png
+   │
+   ▼
+Express віддає файл
+
+
+
+12.

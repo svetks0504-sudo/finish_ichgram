@@ -5,7 +5,8 @@ const postSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
-      minlength: 10,
+      minlength: 5,
+      maxlength: 200,
     },
     images: [
       {

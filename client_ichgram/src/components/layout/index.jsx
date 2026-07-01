@@ -6,8 +6,17 @@ import { useState } from "react";
 import SearchPanel from "../../components/searchPanel";
 import NotificationsPanel from "../../components/notificationsPanel";
 import CreateModal from "../createModal";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchPosts } from "../../redux/slices/postSlice.js";
 
 function Layout({ manuArr }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
   const [activePanel, setActivePanel] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [activeMenuKey, setActiveMenuKey] = useState("home");

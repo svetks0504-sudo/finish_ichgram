@@ -4,7 +4,9 @@ import Like from "../models/Like.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ userId: req.user._id }).sort({ createdAt: -1 });
+    const posts = await Post.find({ userId: req.user._id }).sort({
+      createdAt: -1,
+    });
 
     res.status(200).json({
       message: "Posts retrieved successfully",
@@ -21,6 +23,9 @@ export const getPosts = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
+  console.log(req.body);
+  console.log(req.files);
+
   try {
     const { description } = req.body;
     if (!description || !req.files || req.files.length === 0) {
