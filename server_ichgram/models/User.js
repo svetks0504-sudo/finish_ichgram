@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -9,7 +8,6 @@ const userSchema = new mongoose.Schema({
   },
   fullName: {
     type: String,
-    required: false,
   },
   username: {
     type: String,
@@ -20,11 +18,37 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String,
+    default: "",
+  },
+  bio: {
+    type: String,
+    default: "",
+  },
+  website: {
+    type: String,
+    default: "",
+  },
   plan: {
     type: String,
     enum: ["free", "vip"],
     default: "free",
   },
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

@@ -3,6 +3,7 @@ import Comments from "../models/Comment.js";
 
 export const createComment = async (req, res) => {
   try {
+    const userId = req.user._id;
     const { postId, text } = req.body;
     if (!postId || !text) {
       return res.status(400).json({
@@ -19,10 +20,19 @@ export const createComment = async (req, res) => {
     }
     const comment = await Comments.create({
       postId,
-      userId: req.user._id,
+      userId: userId,
       text,
     });
     post.commentsCount += 1;
+
+    if (!post.userId.equals(userId)) {
+      await Notification.create({
+        receiver: post.userId,
+        sender: userId,
+        type: "comment",
+      });
+    }
+
     await post.save();
     res.status(201).json({
       message: "Comment created successfully",

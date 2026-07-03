@@ -2,15 +2,16 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { connect } from "mongoose";
-import authRouter from "./routes/auth.js"
+import authRouter from "./routes/auth.js";
 import postRouter from "./routes/post.js";
 import likeRouter from "./routes/like.js";
+import postAllRouter from "./routes/postAll.js";
 import commentsRouter from "./routes/comment.js";
+import userRouter from "./routes/user.js";
+import notificationRouter from "./routes/notification.js";
 import cors from "cors";
 
-
 dotenv.config();
-
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,10 +21,13 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRouter);
-app.use("/posts", postRouter);
+app.use("/posts", postAllRouter);
+app.use("/posts/my", postRouter);
 app.use("/uploads", express.static("uploads"));
 app.use("/like", likeRouter);
 app.use("/comments", commentsRouter);
+app.use("/user", userRouter);
+app.use("/notification", notificationRouter)
 
 app.listen(port, () => {
   connectDB(db_uri);

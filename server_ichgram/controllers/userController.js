@@ -1,0 +1,103 @@
+import User from "../models/User.js";
+import Notification from "../models/Notification.js";
+
+export const getMe = async (req, res) => {
+  try {
+    const user = req.user.toObject();
+    delete user.password;
+
+    res.status(200).json({
+      message: "Fetched user successfully!",
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+      });
+    }
+    res.status(200).json({
+      message: "Fetched user successfully!",
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const editProfile = async (req, res) => {
+  try {
+    const { followUserId } = req.body;
+    const user = req.user;
+    const { username, bio, website, avatar } = req.body;
+
+    if (followUserId) {
+      const userToFollow = await User.findById(followUserId);
+
+      if (!userToFollow) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      if (user._id.equals(userToFollow._id)) {
+        return res.status(400).json({
+          success: false,
+          message: "You cannot follow yourself",
+        });
+      }
+
+      if (!user.following.some((id) => id.equals(userToFollow._id))) {
+        user.following.push(userToFollow._id);
+        userToFollow.followers.push(user._id);
+        await Notification.create({
+          receiver: userToFollow._id,
+          sender: user._id,
+          type: "follow",
+        });
+      } else {
+        user.following.pull(userToFollow._id);
+        userToFollow.followers.pull(user._id);
+      }
+
+      await userToFollow.save();
+    }
+
+    if (username !== undefined) user.username = username;
+    if (bio !== undefined) user.bio = bio;
+    if (website !== undefined) user.website = website;
+    if (avatar !== undefined) user.avatar = avatar;
+
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "Operation completed successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};

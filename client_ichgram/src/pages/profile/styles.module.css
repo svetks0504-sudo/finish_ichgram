@@ -1,0 +1,15 @@
+.imgExplore {
+  height: 316px;
+  width: 316px;
+   object-fit: cover;
+}
+
+.containerExplore {
+  display: flex;
+  flex-wrap: wrap;
+  transition: 0.3s;
+  justify-content: center;
+  width: 100%;
+  gap: 4px;
+  margin: 2vw 0;
+}

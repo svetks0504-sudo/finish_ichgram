@@ -1,15 +1,1 @@
-.imgExplore {
-  height: 316px;
-  width: 316px;
-}
 
-.containerExplore {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  transition: 0.3s;
-  justify-content: center;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-}

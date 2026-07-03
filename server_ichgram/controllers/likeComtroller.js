@@ -1,5 +1,6 @@
 import Like from "../models/Like.js";
 import Post from "../models/Post.js";
+import Notification from "../models/Notification.js";
 
 export const getLikes = async (req, res) => {
   try {
@@ -14,7 +15,7 @@ export const getLikes = async (req, res) => {
 
     const likes = await Like.find({ postId }).populate(
       "userId",
-      "username avatar"
+      "username avatar",
     );
 
     res.status(200).json({
@@ -62,6 +63,15 @@ export const addLike = async (req, res) => {
       userId,
     });
     post.likesCount += 1;
+
+    if (!post.userId.equals(userId)) {
+      await Notification.create({
+        receiver: post.userId,
+        sender: userId,
+        type: "like",
+      });
+    }
+
     await post.save();
 
     res.status(200).json({
