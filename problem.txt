@@ -234,4 +234,19 @@ Express віддає файл
 
 
 
-12.
+12. getState додає JWT-токен в заголовок запиту, щоб сервер знав, хто виконує дію.
+const getAuthConfig = (getState) => ({
+  headers: {
+    Authorization: `Bearer ${getState().auth.token}`,
+  },
+});
+потім в запиті
+ async (data, { getState, rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/user/me`,
+        data,
+        getAuthConfig(getState)
+    ....
+
+    13. 

@@ -14,7 +14,7 @@ export const fetchPosts = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/posts`,
+        `${BASE_URL}/posts/my`,
         getAuthConfig(getState),
       );
       return response.data;
@@ -30,7 +30,7 @@ export const fetchPost = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/posts/${id}`,
+        `${BASE_URL}/posts/my/${id}`,
         getAuthConfig(getState),
       );
       return response.data;
@@ -48,12 +48,14 @@ export const createPost = createAsyncThunk(
       const formData = new FormData();
 
       formData.append("description", data.description);
-      data.images.forEach((image) => {
-        formData.append("images", image);
-      });
+      if (data.images) {
+        data.images.forEach((image) => {
+          formData.append("images", image);
+        });
+      }
 
       const response = await axios.post(
-        `${BASE_URL}/posts`,
+        `${BASE_URL}/posts/my`,
         formData,
         getAuthConfig(getState),
       );
@@ -70,7 +72,7 @@ export const updatePost = createAsyncThunk(
   async ({ id, data }, { rejectWithValue, getState }) => {
     try {
       const response = await axios.put(
-        `${BASE_URL}/posts/${id}`,
+        `${BASE_URL}/posts/my/${id}`,
         data,
         getAuthConfig(getState),
       );
@@ -87,7 +89,7 @@ export const deletePost = createAsyncThunk(
   async (id, { rejectWithValue, getState }) => {
     try {
       const response = await axios.delete(
-        `${BASE_URL}/posts/${id}`,
+        `${BASE_URL}/posts/my/${id}`,
         getAuthConfig(getState),
       );
       return response.data;

@@ -24,12 +24,12 @@ export const markAsRead = async (req, res) => {
   try {
     const notifId = req.params.id;
 
-    const notifToEddit = await Notification.findByIdAndUpdate(
+    const notification = await Notification.findOneAndUpdate(
       { _id: notifId, receiver: req.user._id },
       { isRead: true },
       { new: true },
     );
-    if (!notifToEddit) {
+    if (!notification) {
       return res.status(404).json({
         message: "Notification not found",
         success: false,
@@ -38,7 +38,7 @@ export const markAsRead = async (req, res) => {
     res.status(200).json({
       message: "Notification marked as read",
       success: true,
-      notifToEddit,
+      notification,
     });
   } catch (error) {
     res.status(500).json({
@@ -52,7 +52,7 @@ export const markAsRead = async (req, res) => {
 export const deleteNotification = async (req, res) => {
   try {
     const notifId = req.params.id;
-    const notification = await Notification.findByIdAndDelete({
+    const notification = await Notification.findOneAndDelete({
       _id: notifId,
       receiver: req.user._id,
     });
