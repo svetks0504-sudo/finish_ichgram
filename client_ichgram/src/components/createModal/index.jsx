@@ -22,6 +22,7 @@ function CreateModal({ open, onClose }) {
   const onSubmit = (data) => {
     dispatch(createPost(data));
     reset();
+    onClose();
   };
   const onEmojiClick = (emojiData) => {
     const currentValue = getValues("description") || "";

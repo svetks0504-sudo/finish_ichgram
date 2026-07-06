@@ -45,9 +45,19 @@ export const updateProfile = createAsyncThunk(
   "user/editProfile",
   async (data, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.put(
+      const formData = new FormData();
+
+      formData.append("username", data.username);
+      formData.append("bio", data.bio);
+      formData.append("website", data.website);
+
+      if (data.avatar) {
+        formData.append("avatar", data.avatar);
+      }
+
+      const response = await axios.patch(
         `${BASE_URL}/user/me`,
-        data,
+        formData,
         getAuthConfig(getState),
       );
       return response.data;

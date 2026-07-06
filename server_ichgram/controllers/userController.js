@@ -48,7 +48,7 @@ export const editProfile = async (req, res) => {
   try {
     const { followUserId } = req.body;
     const user = req.user;
-    const { username, bio, website, avatar } = req.body;
+    const { username, bio, website } = req.body;
 
     if (followUserId) {
       const userToFollow = await User.findById(followUserId);
@@ -85,7 +85,9 @@ export const editProfile = async (req, res) => {
     if (username !== undefined) user.username = username;
     if (bio !== undefined) user.bio = bio;
     if (website !== undefined) user.website = website;
-    if (avatar !== undefined) user.avatar = avatar;
+    if (req.file) {
+      user.avatar = req.file.filename;
+    }
 
     await user.save();
     res.status(200).json({

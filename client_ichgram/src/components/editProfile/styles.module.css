@@ -1,0 +1,22 @@
+.editProfContaiiner {
+  display: flex;
+  flex-direction: column;
+  gap: 3vw;
+  padding: 3vw 12vw 8vw;
+}
+.card {
+  background-color: rgba(239, 239, 239, 1);
+  width: 42vw;
+  border-radius: 20px;
+}
+.card :global(.ant-card-body) {
+  padding: 16px;
+}
+.upload{
+  margin-left: auto !important;
+}
+.inputsContainer{
+  display: flex;
+  flex-direction: column;
+  margin-top: 33px;
+}

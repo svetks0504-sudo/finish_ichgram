@@ -16,6 +16,7 @@ import Message from "./pages/message";
 import Profile from "./pages/profile";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import OtherProfile from "./pages/otherProfile";
 
 const manuArr = [
   {
@@ -98,6 +99,7 @@ function App() {
             .map((elem) => (
               <Route key={elem.link} path={elem.link} element={elem.element} />
             ))}
+          <Route path="/otherProfile" element={<OtherProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/learn-more" element={<LearnMore />} />

@@ -14,7 +14,7 @@ export const getAllPosts = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/posts`,
+        `${BASE_URL}/posts/`,
         getAuthConfig(getState),
       );
       return response.data;

@@ -1,25 +1,39 @@
-import styles from "./styles.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchMe } from "../../redux/slices/userSlice.js";
+import ProfileComponent from "../../components/profileComponent/index.jsx";
+import EditProfile from "../../components/editProfile";
 
+function Profile() {
+  const [editProfile, setEditProfile] = useState(false);
+  const dispatch = useDispatch();
 
-function Profile(){
-     const BASE_URL = "http://127.0.0.1:3333";
+  useEffect(() => {
+    dispatch(fetchMe());
+  }, [dispatch]);
+
+  function onClick() {
+    setEditProfile(true);
+  }
+
+  const btnArr = [{ title: "Edit profile", onClick: onClick }];
+
   const posts = useSelector((state) => state.posts.posts);
-  return (
-    <div className={styles.containerExplore}>
-      <>
-      {posts.map((post) =>
-        post.images.map((image) => (
-          <img
-            key={image}
-            className={styles.imgExplore}
-            src={`${BASE_URL}/uploads/${image}`}
-            alt="foto"
-          />
-        )),
-      )}
-      </>
-    </div>
+  const me = useSelector((state) => state.user.me);
+  if (!me) {
+    return <div>Loading...</div>;
+  }
+  return editProfile ? (
+    <EditProfile />
+  ) : (
+    <ProfileComponent 
+    user={me} 
+    posts={posts} 
+    arr={btnArr} 
+    bgColor={"rgba(239, 239, 239, 1)"}
+    onClick={onClick} 
+    width={"168.72px"}
+    />
   );
 }
 export default Profile;

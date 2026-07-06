@@ -249,4 +249,7 @@ const getAuthConfig = (getState) => ({
         getAuthConfig(getState)
     ....
 
-    13. 
+    13. Не правильный порядок 
+    app.use("/posts/my", postRouter);
+app.use("/posts", postAllRouter);
+перш треба /posts/my бо сприймаэться postAllController "/:id" як "/" /postController
