@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: 0 auto;
   align-items: center;
-  padding: 3vw 0 15vw 0;
+  padding: 3vw 2vw 15vw 2vw;
   gap: 6vw;
 }
 .topProfile {
@@ -13,7 +13,22 @@
   align-items: center;
   gap: 7vw;
 }
-.rightTop{
+.bioText {
+  white-space: pre-wrap;
+  font-size: 1.2rem;
+  margin-bottom: 1.5vw;
+}
+.linkBio{
+  color: rgba(0, 55, 107, 1);
+  font-weight: 600;
+  text-decoration: none;
+}
+.btnMore{
+  border: none;
+  background-color: transparent;
+  color: rgba(115, 115, 115, 1);
+}
+.rightTop {
   display: flex;
   flex-direction: column;
   gap: 1.4vw;
@@ -23,6 +38,13 @@
   justify-content: center;
   align-items: center;
   gap: 0.5vw;
+}
+.postBtn{
+  border: none;
+}
+.postBtn:hover{
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
 }
 .imgExplore {
   height: 307px;

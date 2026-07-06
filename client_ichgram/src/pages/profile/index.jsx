@@ -24,7 +24,7 @@ function Profile() {
     return <div>Loading...</div>;
   }
   return editProfile ? (
-    <EditProfile />
+    <EditProfile setEditProfile={setEditProfile}/>
   ) : (
     <ProfileComponent 
     user={me} 

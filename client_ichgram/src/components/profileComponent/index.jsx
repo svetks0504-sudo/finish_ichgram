@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import { Avatar, Button, Flex } from "antd";
+import { useState } from "react";
+import imgLink from "../../assets/icons/imgLink.png";
+import { useContext } from "react";
+import PostModalContext from "../../context/postModalContext";
+
 
 const BASE_URL = "http://127.0.0.1:3333";
 
 function ProfileComponent({ user, posts, arr, onClick, bgColor, width }) {
+  const [expanded, setExpanded] = useState(false);
+  const { openPost } = useContext(PostModalContext);
   return (
     <div className={styles.containerExplore}>
       <div className={styles.topProfile}>
@@ -19,12 +25,16 @@ function ProfileComponent({ user, posts, arr, onClick, bgColor, width }) {
             {arr.map((elem) => {
               return (
                 <div key={elem.title} className={styles.btnFlex}>
-                  <Button 
-                  style={{background: bgColor, width: width, fontWeight: 700}}
-                  onClick={onClick}
+                  <Button
+                    style={{
+                      background: bgColor,
+                      width: width,
+                      fontWeight: 700,
+                    }}
+                    onClick={onClick}
                   >
                     {elem.title}
-                    </Button>
+                  </Button>
                 </div>
               );
             })}
@@ -37,8 +47,23 @@ function ProfileComponent({ user, posts, arr, onClick, bgColor, width }) {
           </Flex>
 
           <div>
-            <h4>{user.bio}</h4>
-            <a>{user.website}</a>
+           
+            <div className={styles.bioText}>
+              <span>
+              {expanded
+                ? user.bio
+                : `${user.bio.slice(0, 110)}${user.bio.length > 100 ? "..." : ""}`}
+            </span>
+            {user.bio.length > 100 && (
+              <button className={styles.btnMore}
+              onClick={() => setExpanded(!expanded)}>
+                {expanded ? "Less" : "More"}
+              </button>
+            )}
+            </div>
+           
+            <a className={styles.linkBio} href={user.website}> <img src={imgLink} 
+            /> {user.website}</a>
           </div>
         </div>
       </div>
@@ -46,13 +71,15 @@ function ProfileComponent({ user, posts, arr, onClick, bgColor, width }) {
       <Flex className={styles.fotoflex}>
         {posts.map((post) =>
           post.images.map((image) => (
-            <Link to={`/posts/my/${post._id}`} key={image}>
+            <button className={styles.postBtn}
+           onClick={() => openPost(post)}
+            key={image}>
               <img
                 className={styles.imgExplore}
                 src={`${BASE_URL}/uploads/${image}`}
                 alt="foto"
               />
-            </Link>
+            </button>
           )),
         )}
       </Flex>

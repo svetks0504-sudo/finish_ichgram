@@ -1,10 +1,11 @@
 import styles from "./styles.module.css";
+import background from "../../assets/images/background.png";
 
 function NotFound() {
   return (
     <div className={styles.notFound}>
         <img className={styles.imgNotFound} 
-        src="src/assets/images/background.png" 
+       src={background}
         alt="images"/>
       <div className={styles.right}>
         <h6>Oops! Page Not Found (404 Error)</h6>

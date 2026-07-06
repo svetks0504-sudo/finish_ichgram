@@ -253,3 +253,22 @@ const getAuthConfig = (getState) => ({
     app.use("/posts/my", postRouter);
 app.use("/posts", postAllRouter);
 перш треба /posts/my бо сприймаэться postAllController "/:id" як "/" /postController
+
+13 для модалки  поста використовую контекст, 
+import { useContext } from "react";
+import PostModalContext from "../../context/postModalContext";
+const { openPost } = useContext(PostModalContext);
+
+ <button
+className={styles.postBtn}
+ onClick={() => openPost(post)}
+key={`${post._id}-${current}`}
+     >
+  <img
+ src={`http://127.0.0.1:3333/uploads/${img}`}
+ alt=""/>
+   </button>
+
+
+
+14.

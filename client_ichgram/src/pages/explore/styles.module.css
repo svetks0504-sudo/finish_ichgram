@@ -1,1 +1,31 @@
+.exploreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 316px);
+  grid-auto-rows: 316px;
+  gap: 4px;
+}
 
+.imgExplore {
+  width: 316px;
+  height: 316px;
+  object-fit: cover;
+  display: block;
+}
+.tall {
+  height: 636px;
+  grid-row: span 2;
+}
+.postBtn{
+  border: none;
+}
+.postBtn:hover{
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+}

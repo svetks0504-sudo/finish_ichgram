@@ -4,8 +4,9 @@ import Btn from "../../components/button";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./styles.module.css";
 import { updateProfile } from "../../redux/slices/userSlice.js";
+import imgLink from "../../assets/icons/imgLink.png";
 
-function EditProfile() {
+function EditProfile({ setEditProfile }) {
   const {
     handleSubmit,
     control,
@@ -35,9 +36,10 @@ function EditProfile() {
     },
   ];
 
-  const onSubmit = (data) => {
-    dispatch(updateProfile(data));
+  const onSubmit = async (data) => {
+    await dispatch(updateProfile(data));
     reset();
+    setEditProfile(false);
   };
 
   return (
@@ -46,7 +48,7 @@ function EditProfile() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card className={styles.card}>
-          <Flex style={{ gap: "16px", alignItems: "center" }}>
+          <Flex style={{ gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
             <Avatar
               style={{ height: "56px", width: "56px" }}
               src={
@@ -60,7 +62,7 @@ function EditProfile() {
 
             <div>
               <h3>{me.username}</h3>
-              <h4>{me.bio}</h4>
+              <h4 className={styles.bioCard}>{me.bio}</h4>
             </div>
 
             <Controller
@@ -105,19 +107,77 @@ function EditProfile() {
                   name={elem.name}
                   control={control}
                   defaultValue={elem.default}
+                  rules={
+                    elem.name === "username"
+                      ? {
+                          required: "Username is required",
+                          minLength: {
+                            value: 3,
+                            message: "Minimum 3 characters",
+                          },
+                          validate: (value) =>
+                            value.trim() !== "" || "Username cannot be empty",
+                        }
+                      : elem.name === "website"
+                        ? {
+                            validate: (value) => {
+                              if (!value) return true;
+
+                              try {
+                                new URL(
+                                  value.startsWith("http")
+                                    ? value
+                                    : `https://${value}`,
+                                );
+                                return true;
+                              } catch {
+                                return "Enter a valid URL";
+                              }
+                            },
+                          }
+                        : {}
+                  }
                   render={({ field }) =>
                     elem.name === "bio" ? (
-                      <Input.TextArea rows={4} {...field} maxLength={150} />
+                      <Input.TextArea
+                        rows={4}
+                        {...field}
+                        maxLength={150}
+                        style={{ fontWeight: "600" }}
+                      />
                     ) : (
-                      <Input {...field} />
+                      <Input
+                        className={styles.inputProfile}
+                        {...field}
+                        prefix={
+                          elem.name === "website" ? (
+                            <img
+                              src={imgLink}
+                              alt="link"
+                              width={10}
+                              height={10}
+                            />
+                          ) : null
+                        }
+                        style={
+                          elem.name === "website"
+                            ? { color: "rgba(0, 55, 107, 1)" }
+                            : {}
+                        }
+                      />
                     )
                   }
                 />
+                {errors[elem.name] && (
+                  <Typography.Text type="danger">
+                    {errors[elem.name].message}
+                  </Typography.Text>
+                )}
               </div>
             );
           })}
         </div>
-        <Btn htmlType={"submit"} titleBtn={"Save"}/>
+        <Btn htmlType={"submit"} titleBtn={"Save"} widthBtn={"19vw"} />
       </form>
     </div>
   );

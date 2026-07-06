@@ -9,6 +9,7 @@ import CreateModal from "../createModal";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchPosts } from "../../redux/slices/postSlice.js";
+import PostModal from "../../components/postModal";
 
 function Layout({ manuArr }) {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function Layout({ manuArr }) {
   const [activePanel, setActivePanel] = useState(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [activeMenuKey, setActiveMenuKey] = useState("home");
+
   return (
     <div className={styles.layout}>
       <main>
@@ -37,6 +39,7 @@ function Layout({ manuArr }) {
           open={isCreateOpen}
           onClose={() => setIsCreateOpen(false)}
         />
+        <PostModal />
       </main>
       <Footer
         arr={manuArr}

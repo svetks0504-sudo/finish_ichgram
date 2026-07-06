@@ -1,7 +1,9 @@
+import logo from "../../assets/icons/ichgramLogo.svg"
+
 function ImgLogo({ height, width }) {
   return (
     <img style={{height: height, width: width}}
-            src="src/assets/icons/ichgramLogo.svg"
+            src = {logo}
             alt="icons"
           />
   );

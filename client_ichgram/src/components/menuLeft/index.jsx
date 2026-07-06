@@ -2,6 +2,9 @@ import { Menu } from "antd";
 import styles from "./styles.module.css";
 import ImgLogo from "../../components/imgLogo";
 import { useNavigate } from "react-router-dom";
+import Btn from "../../components/button";
+import { logout } from "../../redux/slices/authSlice.js";
+import { useDispatch } from "react-redux";
 
 function MenuLeft({
   arr,
@@ -11,6 +14,7 @@ function MenuLeft({
   activeMenuKey,
 }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const items = arr.map((elem) => ({
     key: elem.key,
     icon: <img src={elem.icon} alt={elem.title} />,
@@ -30,6 +34,10 @@ function MenuLeft({
     }
   };
 
+  function onLogout() {
+    return dispatch(logout());
+  }
+
   return (
     <div className={styles.menuConteiner}>
       <div className={styles.logoDiv}>
@@ -42,6 +50,9 @@ function MenuLeft({
         mode="vertical"
         items={items}
       />
+      <div className={styles.btnLogaut}>
+        <Btn titleBtn={"Logout"} onClick={onLogout} />
+      </div>
     </div>
   );
 }

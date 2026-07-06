@@ -2,7 +2,7 @@ import { Modal, Upload, Button, Avatar, Flex } from "antd";
 import styles from "./styles.module.css";
 import { Controller, useForm } from "react-hook-form";
 import { createPost } from "../../redux/slices/postSlice.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EmojiPicker from "emoji-picker-react";
 
 
@@ -18,6 +18,7 @@ function CreateModal({ open, onClose }) {
   } = useForm();
 
   const dispatch = useDispatch();
+  const me = useSelector((state) => state.user.me);
 
   const onSubmit = (data) => {
     dispatch(createPost(data));
@@ -104,9 +105,9 @@ function CreateModal({ open, onClose }) {
           </div>
           <div className={styles.modalRight}>
             <div className={styles.avatarContainer}>
-              <Flex style={{ padding: "17px 19px" }}>
-                <Avatar size={28} />
-                <h4></h4>
+              <Flex style={{ padding: "17px 19px", gap: "12px" }}>
+                <Avatar src={`http://127.0.0.1:3333/uploads/${me?.avatar}`} size={28} />
+                <h4>{me?.username}</h4>
               </Flex>
 
               <Controller

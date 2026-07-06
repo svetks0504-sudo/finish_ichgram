@@ -17,6 +17,13 @@ import Profile from "./pages/profile";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import OtherProfile from "./pages/otherProfile";
+import homeIcon from "./assets/icons/home.png";
+import searchIcon from "./assets/icons/search.png";
+import exploreIcon from "./assets/icons/explore.png";
+import messageIcon from "./assets/icons/message.png";
+import notificationsIcon from "./assets/icons/notifications.png";
+import createIcon from "./assets/icons/create.png";
+import profileIcon from "./assets/icons/profile.png";
 
 const manuArr = [
   {
@@ -24,7 +31,7 @@ const manuArr = [
     type: "route",
     link: "/",
     title: "Home",
-    icon: "src/assets/icons/home.png",
+    icon: homeIcon,
     element: <Home />,
   },
   {
@@ -32,14 +39,14 @@ const manuArr = [
     type: "panel",
     panel: "search",
     title: "Search",
-    icon: "src/assets/icons/search.png",
+    icon: searchIcon,
   },
   {
     key: "explore",
     type: "route",
     link: "/explore",
     title: "Explore",
-    icon: "src/assets/icons/explore.png",
+    icon: exploreIcon,
     element: <Explore />,
   },
   {
@@ -47,7 +54,7 @@ const manuArr = [
     type: "route",
     link: "/messages",
     title: "Messages",
-    icon: "src/assets/icons/message.png",
+    icon: messageIcon,
     element: <Message />,
   },
   {
@@ -55,21 +62,21 @@ const manuArr = [
     type: "panel",
     panel: "notifications",
     title: "Notificaitons",
-    icon: "src/assets/icons/notifications.png",
+    icon: notificationsIcon,
   },
   {
     key: "create",
     type: "modal",
     modal: "create",
     title: "Create",
-    icon: "src/assets/icons/create.png",
+    icon: createIcon,
   },
   {
     key: "route",
     type: "route",
     link: "/profile",
     title: "Profile",
-    icon: "src/assets/icons/profile.png",
+    icon: profileIcon,
     element: <Profile />,
   },
 ];
