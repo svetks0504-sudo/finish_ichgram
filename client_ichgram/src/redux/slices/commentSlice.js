@@ -50,6 +50,7 @@ export const createComment = createAsyncThunk(
         data,
         getAuthConfig(getState),
       );
+      console.log(response.data.comment);
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || error.message;

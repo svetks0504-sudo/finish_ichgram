@@ -24,7 +24,7 @@ app.use("/auth", authRouter);
 app.use("/posts/my", postRouter);
 app.use("/posts", postAllRouter);
 app.use("/uploads", express.static("uploads"));
-app.use("/like", likeRouter);
+app.use("/likes", likeRouter);
 app.use("/comments", commentsRouter);
 app.use("/user", userRouter);
 app.use("/notification", notificationRouter)

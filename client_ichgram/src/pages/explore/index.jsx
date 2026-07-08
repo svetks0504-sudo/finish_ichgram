@@ -14,6 +14,10 @@ function Explore() {
     dispatch(getAllPosts());
   }, [dispatch]);
 
+  if (!posts) {
+    return <div>Loading...</div>;
+  }
+
   let imageIndex = 0;
 
   return (
@@ -26,7 +30,7 @@ function Explore() {
             return (
               <button
                 className={styles.postBtn}
-                onClick={() => openPost(post)}
+                onClick={() => openPost({ ...post, user: post.userId })}
                 key={`${post._id}-${current}`}
               >
                 <img

@@ -1,59 +1,62 @@
-import { Avatar, Button, Flex } from "antd";
 import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import {fetchMe} from "../../redux/slices/userSlice.js"
+import { useParams } from "react-router-dom";
+import { fetchUser, updateProfile } from "../../redux/slices/userSlice.js";
+import { getAllPosts } from "../../redux/slices/allPostSlice.js";
+import ProfileComponent from "../../components/profileComponent";
 
 function OtherProfile() {
   const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const user = useSelector((state) => state.user.user);
+  const posts = useSelector((state) => state.allPosts.posts);
+
+  const userPosts = posts.filter((post) => post.userId._id === id);
 
   useEffect(() => {
-    dispatch(fetchMe());
-  }, [dispatch]);
+    dispatch(fetchUser(id));
+    dispatch(getAllPosts());
+  }, [dispatch, id]);
 
-  const BASE_URL = "http://127.0.0.1:3333";
-  const posts = useSelector((state) => state.posts.posts);
-  const me = useSelector((state) => state.user.me);
-  if (!me) {
+  const currentUser = useSelector((state) => state.user.me);
+
+  const isFollow = (id) => {
+    if (!currentUser) return false;
+    return currentUser?.following?.some((elem) => elem._id === id) ?? false;
+  };
+
+  const onClick = (id) => {
+    dispatch(
+      updateProfile({
+        followUserId: id,
+      }),
+    );
+  };
+
+  if (!posts) {
     return <div>Loading...</div>;
   }
-  console.log(me);
+  const btnArr = [
+    {
+      title: isFollow(user?._id) ? "Unfollow" : "Follow",
+      onClick: () => onClick(user._id),
+    },
+    {
+      title: "Message",
+    },
+  ];
+
   return (
     <div className={styles.containerExplore}>
-      <Flex style={{gap: "7vw"}}>
-        <Avatar style={{height: "150px", width: "150px"}}
-        src={`http://127.0.0.1:3333/uploads/${me.avatar}`} />
-        <div>
-          <Flex>
-            <h2>{me.username}</h2>
-            <Button>Edit profile</Button>
-          </Flex>
-          <Flex>
-            <h3>{posts.length}</h3>
-            <h3>{me.followers.length}</h3>
-            <h3>{me.following.length}</h3>
-          </Flex>
-          <div>
-            <h4>{me.bio}</h4>
-            <a>{me.website}</a>
-          </div>
-        </div>
-      </Flex>
-
-      <div>
-        {posts.map((post) =>
-          post.images.map((image) => (
-            <Link to={`/posts/my/${post._id}`} key={image}>
-              <img
-                className={styles.imgExplore}
-                src={`${BASE_URL}/uploads/${image}`}
-                alt="foto"
-              />
-            </Link>
-          )),
-        )}
-      </div>
+      <ProfileComponent
+        user={user}
+        posts={userPosts}
+        arr={btnArr}
+        bgColor={"rgba(239, 239, 239, 1)"}
+        width={"168.72px"}
+      />
     </div>
   );
 }

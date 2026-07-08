@@ -47,9 +47,21 @@ export const updateProfile = createAsyncThunk(
     try {
       const formData = new FormData();
 
-      formData.append("username", data.username);
-      formData.append("bio", data.bio);
-      formData.append("website", data.website);
+      if (data.username !== undefined) {
+        formData.append("username", data.username);
+      }
+
+      if (data.bio !== undefined) {
+        formData.append("bio", data.bio);
+      }
+
+      if (data.website !== undefined) {
+        formData.append("website", data.website);
+      }
+
+      if (data.followUserId !== undefined) {
+        formData.append("followUserId", data.followUserId);
+      }
 
       if (data.avatar) {
         formData.append("avatar", data.avatar);
@@ -62,6 +74,7 @@ export const updateProfile = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
+      console.log(error.response?.data);
       const message = error.response?.data?.message || error.message;
       return rejectWithValue(message);
     }

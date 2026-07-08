@@ -14,7 +14,7 @@ import NotFound from "./pages/notFound";
 import Explore from "./pages/explore";
 import Message from "./pages/message";
 import Profile from "./pages/profile";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { Navigate } from "react-router-dom";
 import OtherProfile from "./pages/otherProfile";
 import homeIcon from "./assets/icons/home.png";
@@ -24,6 +24,10 @@ import messageIcon from "./assets/icons/message.png";
 import notificationsIcon from "./assets/icons/notifications.png";
 import createIcon from "./assets/icons/create.png";
 import profileIcon from "./assets/icons/profile.png";
+import { useEffect } from "react";
+import { fetchMe } from "./redux/slices/userSlice";
+import {getAllPosts} from "./redux/slices/allPostSlice";
+
 
 const manuArr = [
   {
@@ -81,8 +85,19 @@ const manuArr = [
   },
 ];
 
+
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+const token = useSelector((state) => state.auth.token);
+
+useEffect(() => {
+  if (token) {
+    dispatch(getAllPosts())
+    dispatch(fetchMe());
+  }
+}, [dispatch, token]);
+
   return (
     <Router>
       <Routes>
@@ -106,7 +121,7 @@ function App() {
             .map((elem) => (
               <Route key={elem.link} path={elem.link} element={elem.element} />
             ))}
-          <Route path="/otherProfile" element={<OtherProfile />} />
+          <Route path="/profile/:id" element={<OtherProfile />} />
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/learn-more" element={<LearnMore />} />

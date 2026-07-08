@@ -1,0 +1,95 @@
+:global(.ant-modal-container) {
+  padding: 0 !important;
+  border-radius: 5px !important;
+}
+.flexModalPost {
+  display: flex;
+  height: 50vw;
+}
+.postModalImg {
+  width: 60%;
+}
+.modalImg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+.rightModalPost {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  height: 100%;
+}
+.commentsContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  gap: 1.5vw;
+}
+.flexComment {
+  gap: 15px;
+  align-items: center;
+}
+.textComment {
+  margin: 10px;
+}
+
+.like {
+  width: 12px;
+  height: 12px;
+  margin-left: auto;
+}
+.form {
+  margin-top: auto;
+  align-items: center;
+  border-top: 1px solid rgba(219, 219, 219, 1);
+  display: flex;
+  padding: 0 15px;
+  gap: 10px;
+  position: relative;
+}
+.emojiBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.emojiPicker {
+  position: absolute;
+  bottom: 60px;
+  left: 10px;
+  z-index: 2;
+}
+.textarea {
+  resize: none;
+  width: 100%;
+  height: 50px;
+  padding: 17px 0;
+  overflow-y: auto;
+  border: none;
+  outline: none;
+  font-family: "Roboto", sans-serif;
+}
+.countLike{
+  padding: 14px;
+  border-top: 1px solid rgba(219, 219, 219, 1);
+}
+.fontText{
+  font-weight: 700;
+  padding: 15px 0 3px;
+}
+.like {
+  width: 12px;
+  height: 12px;
+  margin-left: auto;
+}
+.avatar {
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+}

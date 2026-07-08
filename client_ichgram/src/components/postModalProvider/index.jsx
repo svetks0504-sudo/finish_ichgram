@@ -7,6 +7,7 @@ function PostModalProvider({ children }) {
   const openPost = (post) => setSelectedPost(post);
   const closePost = () => setSelectedPost(null);
 
+  console.log(selectedPost);
   return (
     <PostModalContext.Provider
       value={{

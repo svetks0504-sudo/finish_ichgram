@@ -30,8 +30,7 @@ function Profile() {
     user={me} 
     posts={posts} 
     arr={btnArr} 
-    bgColor={"rgba(239, 239, 239, 1)"}
-    onClick={onClick} 
+    bgColor={"rgba(239, 239, 239, 1)"} 
     width={"168.72px"}
     />
   );

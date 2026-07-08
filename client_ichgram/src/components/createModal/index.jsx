@@ -4,10 +4,9 @@ import { Controller, useForm } from "react-hook-form";
 import { createPost } from "../../redux/slices/postSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import EmojiPicker from "emoji-picker-react";
-
+import buttonUpload from "../../assets/icons/buttonUpload.png"
 
 function CreateModal({ open, onClose }) {
-  
   const {
     control,
     handleSubmit,
@@ -95,7 +94,7 @@ function CreateModal({ open, onClose }) {
                     }}
                   >
                     <img
-                      src="src/assets/icons/buttonUpload.png"
+                      src={buttonUpload}
                       alt="Upload Image"
                     />
                   </Button>
@@ -106,7 +105,10 @@ function CreateModal({ open, onClose }) {
           <div className={styles.modalRight}>
             <div className={styles.avatarContainer}>
               <Flex style={{ padding: "17px 19px", gap: "12px" }}>
-                <Avatar src={`http://127.0.0.1:3333/uploads/${me?.avatar}`} size={28} />
+                <Avatar
+                  src={`http://127.0.0.1:3333/uploads/${me?.avatar}`}
+                  size={28}
+                />
                 <h4>{me?.username}</h4>
               </Flex>
 

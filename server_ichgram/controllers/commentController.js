@@ -1,5 +1,6 @@
 import Post from "../models/Post.js";
 import Comments from "../models/Comment.js";
+import Notification from "../models/Notification.js";
 
 export const createComment = async (req, res) => {
   try {
@@ -20,7 +21,7 @@ export const createComment = async (req, res) => {
     }
     const comment = await Comments.create({
       postId,
-      userId: userId,
+      userId,
       text,
     });
     post.commentsCount += 1;
@@ -32,14 +33,19 @@ export const createComment = async (req, res) => {
         type: "comment",
       });
     }
+    const populatedComment = await Comments.findById(comment._id).populate(
+      "userId",
+      "username avatar",
+    );
 
     await post.save();
     res.status(201).json({
       message: "Comment created successfully",
       success: true,
-      comment,
+      comment: populatedComment,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Server error",
       success: false,
