@@ -70,7 +70,7 @@ const rejectedLikes = (state, action) => {
 const likesSlice = createSlice({
   name: "likes",
   initialState: {
-    likes: [],
+    likesByPost: {},
     loading: false,
     error: null,
   },
@@ -79,7 +79,7 @@ const likesSlice = createSlice({
     builder
       .addCase(fetchLikes.pending, pendingLikes)
       .addCase(fetchLikes.fulfilled, (state, action) => {
-        state.likes = action.payload.likes;
+        state.likesByPost[action.meta.arg] = action.payload.likes;
         state.loading = false;
         state.error = null;
       })
@@ -88,7 +88,15 @@ const likesSlice = createSlice({
       .addCase(addLike.pending, pendingLikes)
       .addCase(addLike.fulfilled, (state, action) => {
         state.loading = false;
-        state.likes.push(action.payload.like);
+        //action.meta.arg — це аргумент, який ти передав у createAsyncThunk при виклику.
+        //action.meta.arg — це те, що клієнт передав у dispatch.
+        const postId = action.meta.arg;
+        if (!state.likesByPost[postId]) {
+          state.likesByPost[postId] = [];
+        }
+
+        state.likesByPost[postId].push(action.payload.like);
+
         state.error = null;
       })
       .addCase(addLike.rejected, rejectedLikes);
@@ -96,9 +104,13 @@ const likesSlice = createSlice({
       .addCase(removeLike.pending, pendingLikes)
       .addCase(removeLike.fulfilled, (state, action) => {
         state.loading = false;
-        state.likes = state.likes.filter(
-          (like) => like._id !== action.payload.like._id,
-        );
+        const postId = action.meta.arg;
+
+        state.likesByPost[postId] =
+          state.likesByPost[postId]?.filter(
+            (like) => like._id !== action.payload.like._id,
+          ) || [];
+
         state.error = null;
       })
       .addCase(removeLike.rejected, rejectedLikes);

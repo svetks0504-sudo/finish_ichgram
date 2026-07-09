@@ -1,7 +1,6 @@
 import Post from "../models/Post.js";
 import Comments from "../models/Comment.js";
 import Notification from "../models/Notification.js";
-
 export const createComment = async (req, res) => {
   try {
     const userId = req.user._id;

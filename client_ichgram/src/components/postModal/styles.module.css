@@ -37,52 +37,6 @@
 .textComment {
   margin: 10px;
 }
-
-.like {
-  width: 12px;
-  height: 12px;
-  margin-left: auto;
-}
-.form {
-  margin-top: auto;
-  align-items: center;
-  border-top: 1px solid rgba(219, 219, 219, 1);
-  display: flex;
-  padding: 0 15px;
-  gap: 10px;
-  position: relative;
-}
-.emojiBtn {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 22px;
-}
-
-.emojiPicker {
-  position: absolute;
-  bottom: 60px;
-  left: 10px;
-  z-index: 2;
-}
-.textarea {
-  resize: none;
-  width: 100%;
-  height: 50px;
-  padding: 17px 0;
-  overflow-y: auto;
-  border: none;
-  outline: none;
-  font-family: "Roboto", sans-serif;
-}
-.countLike{
-  padding: 14px;
-  border-top: 1px solid rgba(219, 219, 219, 1);
-}
-.fontText{
-  font-weight: 700;
-  padding: 15px 0 3px;
-}
 .like {
   width: 12px;
   height: 12px;

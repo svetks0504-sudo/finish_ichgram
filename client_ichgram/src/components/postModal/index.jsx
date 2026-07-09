@@ -1,29 +1,16 @@
 import { Flex, Modal, Dropdown } from "antd";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import PostModalContext from "../../context/postModalContext.js";
 import styles from "./styles.module.css";
 import BtnFollow from "../../components/btnFollow";
 import { updateProfile } from "../../redux/slices/userSlice.js";
-import {
-  fetchComments,
-  createComment,
-} from "../../redux/slices/commentSlice.js";
+import { fetchComments } from "../../redux/slices/commentSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import EmojiPicker from "emoji-picker-react";
-import smile from "../../assets/icons/smail.png";
 import like from "../../assets/icons/like.png";
-import likeBig from "../../assets/icons/likeBig.png";
-import likeBigRed from "../../assets/icons/likeBigRed.png";
-import comment from "../../assets/icons/comment.png";
+import LikeCountContainer from "../../components/likeCountContainer";
 import TimeGray from "../../components/timeGray";
 import AvatarUni from "../../components/avatarUni";
 import PunktDiv from "../../components/punktDiv";
-import {
-  addLike,
-  removeLike,
-  fetchLikes,
-} from "../../redux/slices/likeSlice.js";
 import { deletePost } from "../../redux/slices/postSlice.js";
 import { EllipsisOutlined } from "@ant-design/icons";
 
@@ -31,24 +18,12 @@ const BASE_URL = "http://127.0.0.1:3333";
 
 function PostModal() {
   const dispatch = useDispatch();
-  const likes = useSelector((state) => state.likes.likes);
   const { selectedPost, closePost } = useContext(PostModalContext);
   const comments = useSelector((state) => state.comments.comments);
   const currentUser = useSelector((state) => state.user.me);
-  const { handleSubmit, register, reset, getValues, setValue } = useForm();
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
   const isMyPost =
     currentUser?._id === (selectedPost?.userId?._id || selectedPost?.userId);
-
-  const onEmojiClick = (emojiData) => {
-    const currentValue = getValues("text") || "";
-    (setValue("text", currentValue + emojiData.emoji),
-      {
-        shouldDirty: true,
-        shouldTouch: true,
-        shouldValidate: true,
-      });
-  };
 
   const handleEdit = () => {};
 
@@ -77,7 +52,6 @@ function PostModal() {
   useEffect(() => {
     if (selectedPost) {
       dispatch(fetchComments(selectedPost._id));
-      dispatch(fetchLikes(selectedPost._id));
     }
   }, [dispatch, selectedPost]);
 
@@ -97,28 +71,6 @@ function PostModal() {
         followUserId: id,
       }),
     );
-  };
-
-  const onSubmit = (data) => {
-    dispatch(
-      createComment({
-        ...data,
-        postId: selectedPost._id,
-      }),
-    );
-    reset();
-  };
-
-  const isLiked = likes.some(
-    (like) => (like.userId._id || like.userId) === currentUser._id,
-  );
-
-  const handleLike = () => {
-    if (isLiked) {
-      dispatch(removeLike(selectedPost._id));
-    } else {
-      dispatch(addLike(selectedPost._id));
-    }
   };
 
   return (
@@ -173,8 +125,9 @@ function PostModal() {
               </Dropdown>
             ) : (
               <>
-                <PunktDiv color={"rgba(0, 0, 0, 1)"}/>
+                <PunktDiv color={"rgba(0, 0, 0, 1)"} />
                 <BtnFollow
+                  padding={"0"}
                   title={
                     isFollow(selectedPost.user._id) ? "Unfollow" : "Follow"
                   }
@@ -232,41 +185,13 @@ function PostModal() {
               </Flex>
             ))}
           </div>
-          <div className={styles.countLike}>
-            <Flex style={{ gap: "15px" }}>
-              <img
-                onClick={handleLike}
-                src={isLiked ? likeBigRed : likeBig}
-                alt="like"
-              />
-              <img src={comment} alt="comment" />
-            </Flex>
-            <p className={styles.fontText}>{likes.length} likes</p>
-            <TimeGray elem={selectedPost.likesCount} />
-          </div>
 
-          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <button
-              type="button"
-              className={styles.emojiBtn}
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            >
-              <img src={smile} alt="Smile" />
-            </button>
-            {showEmojiPicker && (
-              <div className={styles.emojiPicker}>
-                <EmojiPicker onEmojiClick={onEmojiClick} />
-              </div>
-            )}
-            <textarea
-              {...register("text", {
-                required: true,
-              })}
-              className={styles.textarea}
-              placeholder="Add comment"
-            ></textarea>
-            <BtnFollow title={"Send"} htmlType={"submit"} />
-          </form>
+          <div>
+            <LikeCountContainer margin={"11px"}
+            postId={selectedPost._id}
+              component={<TimeGray elem={selectedPost} />}
+            />
+          </div>
         </div>
       </div>
     </Modal>

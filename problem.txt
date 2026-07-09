@@ -278,3 +278,14 @@ import "dayjs/locale/en";
 
 dayjs.extend(relativeTime);
   dayjs.locale("en");
+
+
+
+  15. //action.meta.arg — це аргумент, який ти передав у createAsyncThunk при виклику.
+        //action.meta.arg — це те, що клієнт передав у dispatch.
+
+
+
+
+
+  16.

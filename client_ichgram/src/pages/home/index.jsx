@@ -1,16 +1,22 @@
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./styles.module.css";
-import { Avatar, Flex } from "antd";
+import { Flex } from "antd";
+import { useContext, useEffect } from "react";
 import TimeGray from "../../components/timeGray";
 import PunktDiv from "../../components/punktDiv";
 import BtnFollow from "../../components/btnFollow";
 import { updateProfile } from "../../redux/slices/userSlice.js";
 import AvatarUni from "../../components/avatarUni";
+import PostModalContext from "../../context/postModalContext.js";
+import LikeCountContainer from "../../components/likeCountContainer";
+import CommentElemHome from "../../components/commentElemHome";
+import {fetchComments} from "../../redux/slices/commentSlice.js"
 
 function Home() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.me);
   const posts = useSelector((state) => state.allPosts.posts);
+  const {openPost} = useContext(PostModalContext);
 
   const isFollow = (id) => {
     if (!currentUser?.following) return false;
@@ -28,28 +34,49 @@ function Home() {
     );
   };
 
+ 
+
   return (
-    <div>
+    <div className={styles.homeContainer}>
       {posts.map((elem) => {
-        const isMyPost = currentUser?._id === elem.userId._id;
+        const isMyPost = currentUser?._id === elem.user._id;
         return (
           <div key={elem._id} className={styles.postContainer}>
-            <Flex style={{ alignItems: "center" }}>
+            <Flex
+              style={{
+                alignItems: "center",
+                gap: "5px",
+                flexWrap: "wrap",
+                paddingTop: "8px",
+                paddingBottom: "12px",
+              }}
+            >
               <AvatarUni
-              elem={elem.userId.avatar}
-               width={"27px"} userId={elem.userId._id} currentUserId={currentUser?._id}
-                
+                elem={elem.user.avatar}
+                width={"27px"}
+                userId={elem.user._id}
+                currentUserId={currentUser?._id}
               />
-              <p>{elem.userId.username}</p>
+              <p>{elem.user.username}</p>
               <PunktDiv color={"rgba(115, 115, 115, 1)"} />
               <TimeGray elem={elem} />
               <PunktDiv color={"rgba(115, 115, 115, 1)"} />
               {!isMyPost && (
                 <BtnFollow
-                  title={isFollow(elem.userId._id) ? "Unfollow" : "Follow"}
-                  onClick={() => onClick(elem.userId._id)}
+                  padding={"10px"}
+                  title={isFollow(elem.user._id) ? "Unfollow" : "Follow"}
+                  onClick={() => onClick(elem.user._id)}
                 />
               )}
+            </Flex>
+            <img
+              className={styles.imgPost}
+              src={`http://127.0.0.1:3333/uploads/${elem.images[0]}`}
+            />
+
+            <LikeCountContainer margin={"2px"} component={<CommentElemHome post={elem} />} postId={elem._id} />
+            <Flex>
+              <p className={styles.viewGray} onClick={()=>openPost(elem)}>View all comments ({elem.commentsCount})</p>
             </Flex>
           </div>
         );

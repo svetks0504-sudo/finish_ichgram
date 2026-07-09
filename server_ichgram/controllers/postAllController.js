@@ -1,4 +1,5 @@
 import Post from "../models/Post.js";
+import Comment from "../models/Comment.js";
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -6,10 +7,24 @@ export const getAllPosts = async (req, res) => {
       .populate("userId", "username avatar")
       .sort({ createdAt: -1 });
 
+    const result = await Promise.all(
+      posts.map(async (post) => {
+        const previewComments = await Comment.find({ postId: post._id })
+          .populate("userId", "username avatar")
+          .limit(2);
+
+        return {
+          ...post.toObject(),
+          user: post.userId,
+          previewComments,
+        };
+      }),
+    );
+
     res.status(200).json({
       message: "Posts retrieved successfully",
       success: true,
-      posts,
+      posts: result,
     });
   } catch (error) {
     res.status(500).json({
