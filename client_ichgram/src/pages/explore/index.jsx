@@ -18,29 +18,21 @@ function Explore() {
     return <div>Loading...</div>;
   }
 
-  let imageIndex = 0;
 
   return (
     <div className={styles.exploreContainer}>
-      <div className={styles.grid}>
+      <div className={styles.flex}>
         {posts.map((post) =>
           post.images.map((img) => {
-            const current = imageIndex++;
-
+           
             return (
-              <button
-                className={styles.postBtn}
-                onClick={() => openPost({ ...post, user: post.userId })}
-                key={`${post._id}-${current}`}
-              >
                 <img
-                  className={`${styles.imgExplore} ${
-                    current % 5 === 4 ? styles.tall : ""
-                  }`}
+                key={img}
+                onClick={() => openPost({ ...post, user: post.userId })}
+                  className={styles.imgExplore} 
                   src={`http://127.0.0.1:3333/uploads/${img}`}
                   alt=""
                 />
-              </button>
             );
           }),
         )}

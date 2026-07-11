@@ -17,6 +17,7 @@ export const getNotifications = createAsyncThunk(
         `${BASE_URL}/notification`,
         getAuthConfig(getState),
       );
+
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || error.message;

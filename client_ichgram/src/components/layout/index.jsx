@@ -24,7 +24,7 @@ function Layout({ manuArr }) {
 
   return (
     <div className={styles.layout}>
-      <main>
+      <main className={styles.main}>
         <MenuLeft
           arr={manuArr}
           setActivePanel={setActivePanel}
@@ -32,14 +32,22 @@ function Layout({ manuArr }) {
           activeMenuKey={activeMenuKey}
           setActiveMenuKey={setActiveMenuKey}
         />
-        <Outlet />
-        {activePanel === "search" && <SearchPanel />}
-        {activePanel === "notifications" && <NotificationsPanel />}
+
+        <div className={styles.content}>
+          <Outlet />
+        
+        {activePanel === "search" && (
+          <SearchPanel setActivePanel={setActivePanel} />
+        )}
+        {activePanel === "notifications" && (
+          <NotificationsPanel setActivePanel={setActivePanel} />
+        )}
         <CreateModal
           open={isCreateOpen}
           onClose={() => setIsCreateOpen(false)}
         />
         <PostModal />
+        </div>
       </main>
       <Footer
         arr={manuArr}

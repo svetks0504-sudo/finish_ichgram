@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Btn from "../../components/button";
 import { logout } from "../../redux/slices/authSlice.js";
 import { useDispatch } from "react-redux";
+import PostModalContext from "../../context/postModalContext.js";
+import { useContext } from "react";
 
 function MenuLeft({
   arr,
@@ -13,6 +15,7 @@ function MenuLeft({
   setActiveMenuKey,
   activeMenuKey,
 }) {
+  const { closePost } = useContext(PostModalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const items = arr.map((elem) => ({
@@ -24,6 +27,10 @@ function MenuLeft({
     const item = arr.find((elem) => elem.key === key);
 
     setActiveMenuKey(item.key);
+
+    setActivePanel(null);
+    setIsCreateOpen(false);
+    closePost()
 
     if (item.type === "route") {
       navigate(item.link);
@@ -41,12 +48,12 @@ function MenuLeft({
   return (
     <div className={styles.menuConteiner}>
       <div className={styles.logoDiv}>
-        <ImgLogo height={"4vw"} width={"7vw"} />
+        <ImgLogo height={"55px"} width={"97px"} />
       </div>
       <Menu
         selectedKeys={[activeMenuKey]}
         onClick={onClick}
-        style={{ width: 256 }}
+        style={{ width: 245 }}
         mode="vertical"
         items={items}
       />

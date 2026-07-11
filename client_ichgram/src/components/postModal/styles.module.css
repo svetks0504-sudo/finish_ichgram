@@ -2,6 +2,11 @@
   padding: 0 !important;
   border-radius: 5px !important;
 }
+.postModal :global(.ant-modal) {
+  width: 70vw !important;
+  margin-top: 3vw;
+  flex-wrap: wrap;
+}
 .flexModalPost {
   display: flex;
   height: 50vw;
@@ -47,3 +52,4 @@
   height: 27px;
   flex-shrink: 0;
 }
+

@@ -1,0 +1,18 @@
+.commentText {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  word-break: break-word;
+}
+.content {
+  flex: 1;
+}
+
+.commentsFooter {
+  margin-top: auto;
+  padding-bottom: 3vw;
+}
+.viewGray {
+  color: rgba(115, 115, 115, 1);
+}

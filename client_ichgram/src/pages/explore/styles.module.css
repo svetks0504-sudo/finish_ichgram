@@ -3,13 +3,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 6vw 0 6vw;
   width: 100%;
 }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 316px);
-  grid-auto-rows: 316px;
-  gap: 4px;
+.flex {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 4px;
+flex-wrap: wrap;
 }
 
 .imgExplore {

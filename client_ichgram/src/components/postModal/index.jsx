@@ -29,6 +29,7 @@ function PostModal() {
 
   const handleDelete = (id) => {
     dispatch(deletePost(id));
+    closePost();
   };
 
   const items = [
@@ -46,6 +47,7 @@ function PostModal() {
     {
       key: "cancel",
       label: "Cancel",
+      onClick: () => closePost()
     },
   ];
 
@@ -70,11 +72,19 @@ function PostModal() {
       updateProfile({
         followUserId: id,
       }),
+      
     );
   };
 
   return (
     <Modal
+      rootClassName={styles.postModal}
+      getContainer={false}
+      styles={{
+        body: {
+          height: "50vw",
+        },
+      }}
       closeIcon={null}
       width="77vw"
       footer={null}
@@ -187,8 +197,9 @@ function PostModal() {
           </div>
 
           <div>
-            <LikeCountContainer margin={"11px"}
-            postId={selectedPost._id}
+            <LikeCountContainer
+              margin={"11px"}
+              postId={selectedPost._id}
               component={<TimeGray elem={selectedPost} />}
             />
           </div>

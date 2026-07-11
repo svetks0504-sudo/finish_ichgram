@@ -5,6 +5,13 @@ export const getNotifications = async (req, res) => {
     const userId = req.user._id;
     const notifications = await Notification.find({ receiver: userId })
       .populate("sender", "username avatar")
+      .populate({
+        path: "postId",
+        populate: {
+          path: "userId",
+          select: "username avatar",
+        },
+      })
       .sort({ createdAt: -1 });
     res.status(200).json({
       message: "Notifications fetched successfully",
@@ -26,9 +33,11 @@ export const markAsRead = async (req, res) => {
 
     const notification = await Notification.findOneAndUpdate(
       { _id: notifId, receiver: req.user._id },
-      { isRead: true },
+      { isRead: false },
       { new: true },
-    );
+    )
+      .populate("sender", "username avatar")
+      .populate("postId");
     if (!notification) {
       return res.status(404).json({
         message: "Notification not found",

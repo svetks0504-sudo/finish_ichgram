@@ -7,7 +7,7 @@
 }
 .postContainer{
    width: 404px;
-   height: 717px;
+   min-height: 717px;
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
@@ -21,6 +21,20 @@
     height: 505px;
     object-fit: cover;
 }
-.viewGray{
+.centerFooterHome{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    gap: 5px;
+    padding: 3vw 0 5vw;
+}
+.imgFooter{
+    padding-bottom: 5px;
+    height: 83px;
+    width: 83px;
+}
+.greyFooter{
     color: rgba(115, 115, 115, 1);
 }

@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import Comments from "../models/Comment.js";
 import Notification from "../models/Notification.js";
+
 export const createComment = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -25,11 +26,15 @@ export const createComment = async (req, res) => {
     });
     post.commentsCount += 1;
 
+    await post.save();
+
     if (!post.userId.equals(userId)) {
       await Notification.create({
         receiver: post.userId,
         sender: userId,
         type: "comment",
+        postId,
+        commentId: comment._id,
       });
     }
     const populatedComment = await Comments.findById(comment._id).populate(
@@ -37,7 +42,6 @@ export const createComment = async (req, res) => {
       "username avatar",
     );
 
-    await post.save();
     res.status(201).json({
       message: "Comment created successfully",
       success: true,

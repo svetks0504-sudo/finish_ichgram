@@ -64,15 +64,16 @@ export const addLike = async (req, res) => {
     });
     post.likesCount += 1;
 
+    await post.save();
+
     if (!post.userId.equals(userId)) {
       await Notification.create({
         receiver: post.userId,
         sender: userId,
         type: "like",
+        postId,
       });
     }
-
-    await post.save();
 
     res.status(200).json({
       message: "Like added",

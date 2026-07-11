@@ -17,9 +17,17 @@ const notificationSchema = new mongoose.Schema(
       enum: ["follow", "like", "comment"],
       required: true,
     },
+      postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+     commentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
     isRead: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {

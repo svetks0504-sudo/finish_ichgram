@@ -4,7 +4,15 @@ import PostModalContext from "../../context/postModalContext";
 function PostModalProvider({ children }) {
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const openPost = (post) => setSelectedPost(post);
+  const openPost = (post) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    setSelectedPost(post);
+  };
+
   const closePost = () => setSelectedPost(null);
 
   console.log(selectedPost);

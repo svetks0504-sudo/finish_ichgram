@@ -7,6 +7,11 @@
 :global(.ant-modal-container) {
   padding: 0 !important;
 }
+.postModal :global(.ant-modal) {
+  width: 63vw !important;
+  margin-top: 3vw;
+  flex-wrap: wrap;
+}
 .modalTopFlexButtons {
   margin-left: auto;
   display: flex;

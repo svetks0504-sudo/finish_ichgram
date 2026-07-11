@@ -3,7 +3,11 @@
   display: flex;
   flex-direction: column;
 }
-main{
-    display: flex;
-    flex: 1;
+.main {
+  display: flex;
+  min-height: 100vh;
+}
+.content {
+  position: relative;
+  flex: 1;
 }

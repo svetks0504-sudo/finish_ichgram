@@ -1,9 +1,15 @@
 .menuConteiner {
   border-right: 1px solid rgba(219, 219, 219, 0.6);
+  width: 245px;
+   flex-shrink: 0;
 }
 .logoDiv{
     padding: 20px 0 10px 20px;
 }
 .btnLogaut{
   margin: 20px;
+}
+.content {
+  flex: 1;
+  min-width: 0;
 }

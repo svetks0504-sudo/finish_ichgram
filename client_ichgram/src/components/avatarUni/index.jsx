@@ -10,10 +10,12 @@ function AvatarUni({ elem, width, userId, currentUserId }) {
   const { closePost } = useContext(PostModalContext);
   const profileLink =
     userId === currentUserId ? "/profile" : `/profile/${userId}`;
+
   return (
     <NavLink to={profileLink}>
       <Avatar
-      onClick={closePost}
+     style={{width: width, height: width}}
+        onClick={closePost}
         className={styles.avatar}
         size={width}
         src={`${BASE_URL}/uploads/${elem}`}

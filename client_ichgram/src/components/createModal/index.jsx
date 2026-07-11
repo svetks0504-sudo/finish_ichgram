@@ -4,7 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { createPost } from "../../redux/slices/postSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import EmojiPicker from "emoji-picker-react";
-import buttonUpload from "../../assets/icons/buttonUpload.png"
+import buttonUpload from "../../assets/icons/buttonUpload.png";
 
 function CreateModal({ open, onClose }) {
   const {
@@ -38,6 +38,9 @@ function CreateModal({ open, onClose }) {
   const MAX_LENGTH = 200;
   return (
     <Modal
+      getContainer={false}
+      rootClassName={styles.postModal}
+      getContainer={false}
       closeIcon={null}
       width="63vw"
       footer={null}
@@ -93,10 +96,7 @@ function CreateModal({ open, onClose }) {
                       boxShadow: "none",
                     }}
                   >
-                    <img
-                      src={buttonUpload}
-                      alt="Upload Image"
-                    />
+                    <img src={buttonUpload} alt="Upload Image" />
                   </Button>
                 </Upload>
               )}
