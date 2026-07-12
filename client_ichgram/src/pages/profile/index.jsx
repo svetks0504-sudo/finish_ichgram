@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchMe } from "../../redux/slices/userSlice.js";
 import ProfileComponent from "../../components/profileComponent/index.jsx";
 import EditProfile from "../../components/editProfile";
+import { Button } from "antd";
 
 function Profile() {
   const [editProfile, setEditProfile] = useState(false);
@@ -16,7 +17,17 @@ function Profile() {
     setEditProfile(true);
   }
 
-  const btnArr = [{ title: "Edit profile", onClick: onClick }];
+  const btnArr = [<Button
+                    style={{
+                      background: "rgba(239, 239, 239, 1)",
+                      width: "168px",
+                      fontWeight: 700,
+                    }}
+                    onClick={onClick}
+                  >
+                   Edit profile
+                  </Button>
+]
 
   const posts = useSelector((state) => state.posts.posts);
   const me = useSelector((state) => state.user.me);

@@ -59,6 +59,22 @@ export const searchUsers = createAsyncThunk(
   },
 );
 
+export const chatUsers = createAsyncThunk(
+  "user/chatUsers",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/user/chatUsers`,
+        getAuthConfig(getState),
+      );
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return rejectWithValue(message);
+    }
+  },
+);
+
 export const updateProfile = createAsyncThunk(
   "user/editProfile",
   async (data, { getState, rejectWithValue }) => {
@@ -92,7 +108,6 @@ export const updateProfile = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log(error.response?.data);
       const message = error.response?.data?.message || error.message;
       return rejectWithValue(message);
     }
@@ -118,6 +133,7 @@ const userSlice = createSlice({
     me: null,
     user: null,
     users: [],
+    usersMessage: [],
     loading: false,
     error: null,
   },
@@ -134,6 +150,13 @@ const userSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(fetchUser.rejected, rejectedUser);
+    builder
+      .addCase(chatUsers.pending, pendingUser)
+      .addCase(chatUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.usersMessage = action.payload.chatUsers;
+      })
+      .addCase(chatUsers.rejected, rejectedUser);
     builder
       .addCase(searchUsers.pending, pendingUser)
       .addCase(searchUsers.fulfilled, (state, action) => {

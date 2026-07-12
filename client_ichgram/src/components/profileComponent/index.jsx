@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import { Avatar, Button, Flex } from "antd";
+import { Avatar, Flex } from "antd";
 import { useState } from "react";
 import imgLink from "../../assets/icons/imgLink.png";
 import { useContext } from "react";
@@ -7,11 +7,11 @@ import PostModalContext from "../../context/postModalContext";
 
 const BASE_URL = "http://127.0.0.1:3333";
 
-function ProfileComponent({ user, posts, arr, bgColor, width }) {
+function ProfileComponent({ user, posts, arr }) {
   const [expanded, setExpanded] = useState(false);
   const { openPost } = useContext(PostModalContext);
-   if (!user) {
-    return <div>Loading...</div>; 
+  if (!user) {
+    return <div>Loading...</div>;
   }
   return (
     <div className={styles.containerExplore}>
@@ -24,19 +24,10 @@ function ProfileComponent({ user, posts, arr, bgColor, width }) {
         <div className={styles.rightTop}>
           <Flex style={{ gap: "2vw", alignItems: "center" }}>
             <h2>{user.username}</h2>
-            {arr.map((elem) => {
+            {arr.map((elem, index) => {
               return (
-                <div key={elem.title} className={styles.btnFlex}>
-                  <Button
-                    style={{
-                      background: bgColor,
-                      width: width,
-                      fontWeight: 700,
-                    }}
-                    onClick={elem.onClick}
-                  >
-                    {elem.title}
-                  </Button>
+                <div key={index} className={styles.btnFlex}>
+                  {elem}
                 </div>
               );
             })}
@@ -78,7 +69,7 @@ function ProfileComponent({ user, posts, arr, bgColor, width }) {
           post.images.map((image) => (
             <button
               className={styles.postBtn}
-              onClick={() => openPost({ ...post, user})}
+              onClick={() => openPost({ ...post, user })}
               key={image}
             >
               <img

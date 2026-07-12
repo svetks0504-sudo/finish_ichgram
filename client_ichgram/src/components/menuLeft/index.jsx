@@ -50,7 +50,7 @@ function MenuLeft({
       <div className={styles.logoDiv}>
         <ImgLogo height={"55px"} width={"97px"} />
       </div>
-      <Menu
+      <Menu 
         selectedKeys={[activeMenuKey]}
         onClick={onClick}
         style={{ width: 245 }}

@@ -73,6 +73,39 @@ export const searchUsers = async (req, res) => {
   }
 };
 
+export const chatUsers = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id)
+      .populate("following", "username fullName avatar")
+      .populate("followers", "username fullName avatar");
+
+    const users = [...user.following, ...user.followers];
+
+    const chatUsers = [];
+
+    for (const user of users) {
+      const exists = chatUsers.find(
+        (userChat) => userChat._id.toString() === user._id.toString(),
+      );
+      if (!exists) {
+        chatUsers.push(user);
+      }
+    }
+
+    res.status(200).json({
+      message: "Fetched users successfully!",
+      success: true,
+      chatUsers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export const editProfile = async (req, res) => {
   try {
     const { followUserId } = req.body;
