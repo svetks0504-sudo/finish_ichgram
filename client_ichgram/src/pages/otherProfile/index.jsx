@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchUser, updateProfile } from "../../redux/slices/userSlice.js";
 import { getAllPosts } from "../../redux/slices/allPostSlice.js";
 import ProfileComponent from "../../components/profileComponent";
@@ -45,6 +45,7 @@ function OtherProfile() {
     },
     {
       title: "Message",
+      onClick: <Link to="/messages" />
     },
   ];
 

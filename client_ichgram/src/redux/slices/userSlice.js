@@ -41,6 +41,24 @@ export const fetchUser = createAsyncThunk(
   },
 );
 
+export const searchUsers = createAsyncThunk(
+  "user/searchUsers",
+  async (searchText, { getState, rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/user/search`, {
+        params: {
+          searchText,
+        },
+        ...getAuthConfig(getState),
+      });
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message || error.message;
+      return rejectWithValue(message);
+    }
+  },
+);
+
 export const updateProfile = createAsyncThunk(
   "user/editProfile",
   async (data, { getState, rejectWithValue }) => {
@@ -99,6 +117,7 @@ const userSlice = createSlice({
   initialState: {
     me: null,
     user: null,
+    users: [],
     loading: false,
     error: null,
   },
@@ -115,6 +134,13 @@ const userSlice = createSlice({
         state.user = action.payload.user;
       })
       .addCase(fetchUser.rejected, rejectedUser);
+    builder
+      .addCase(searchUsers.pending, pendingUser)
+      .addCase(searchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload.users;
+      })
+      .addCase(searchUsers.rejected, rejectedUser);
     builder
       .addCase(updateProfile.pending, pendingUser)
       .addCase(updateProfile.fulfilled, fulfilledUser)

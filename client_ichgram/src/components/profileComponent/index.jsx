@@ -7,7 +7,7 @@ import PostModalContext from "../../context/postModalContext";
 
 const BASE_URL = "http://127.0.0.1:3333";
 
-function ProfileComponent({ user, posts, arr, onClick, bgColor, width }) {
+function ProfileComponent({ user, posts, arr, bgColor, width }) {
   const [expanded, setExpanded] = useState(false);
   const { openPost } = useContext(PostModalContext);
    if (!user) {

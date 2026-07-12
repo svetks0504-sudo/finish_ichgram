@@ -44,6 +44,35 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const searchUsers = async (req, res) => {
+  try {
+    const { searchText } = req.query;
+
+    if (!searchText) {
+      return res.status(200).json({
+        success: true,
+        users: [],
+      });
+    }
+
+    const users = await User.find({
+      username: { $regex: searchText, $options: "i" },
+    });
+
+    res.status(200).json({
+      message: "Users fetched successfully",
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "server error",
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const editProfile = async (req, res) => {
   try {
     const { followUserId } = req.body;

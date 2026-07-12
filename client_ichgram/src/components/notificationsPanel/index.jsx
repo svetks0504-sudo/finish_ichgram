@@ -49,12 +49,14 @@ function NotificationsPanel({ setActivePanel }) {
               >
                 <Flex className={styles.notificatContainer}>
                   <div className={styles.flexNotific}>
+                    <div onClick={()=>{setActivePanel(null)}}>
                     <AvatarUni
                       width={"44px"}
                       elem={notificat.sender.avatar}
                       currentUserId={currentUserId}
                       userId={notificat.sender._id}
                     />
+                    </div>
 
                     <div
                       onClick={() => {
