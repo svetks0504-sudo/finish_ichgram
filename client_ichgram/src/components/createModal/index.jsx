@@ -10,7 +10,6 @@ function CreateModal({ open, onClose }) {
   const {
     control,
     handleSubmit,
-    formState: { errors },
     reset,
     getValues,
     setValue,

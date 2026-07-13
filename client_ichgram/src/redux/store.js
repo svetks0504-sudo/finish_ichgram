@@ -7,6 +7,7 @@ import authMiddleware from "./middleware/authMiddleware";
 import allPostReducer from "./slices/allPostSlice";
 import userReducer from "./slices/userSlice";
 import notificationReducer from "./slices/notificationSlice";
+import chatReducer from "./slices/chatSlice";
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     allPosts: allPostReducer,
     user: userReducer,
     notification: notificationReducer,
+    chat: chatReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(authMiddleware);

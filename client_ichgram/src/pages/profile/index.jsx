@@ -22,6 +22,7 @@ function Profile() {
                       background: "rgba(239, 239, 239, 1)",
                       width: "168px",
                       fontWeight: 700,
+                      cursor:  "pointer"
                     }}
                     onClick={onClick}
                   >

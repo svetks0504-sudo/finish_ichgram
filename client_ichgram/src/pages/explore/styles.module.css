@@ -7,11 +7,11 @@
   width: 100%;
 }
 .flex {
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 4px;
-flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
 }
 
 .imgExplore {
@@ -19,15 +19,16 @@ flex-wrap: wrap;
   height: 316px;
   object-fit: cover;
   display: block;
+  cursor: pointer;
 }
 .tall {
   height: 636px;
   grid-row: span 2;
 }
-.postBtn{
+.postBtn {
   border: none;
 }
-.postBtn:hover{
+.postBtn:hover {
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
   transition: 0.3s;
 }

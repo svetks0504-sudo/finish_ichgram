@@ -6,6 +6,7 @@ import postRouter from "./routes/post.js";
 import likeRouter from "./routes/like.js";
 import postAllRouter from "./routes/postAll.js";
 import commentsRouter from "./routes/comment.js";
+import chatRouter from "./routes/chat.js";
 import userRouter from "./routes/user.js";
 import notificationRouter from "./routes/notification.js";
 import cors from "cors";
@@ -29,7 +30,8 @@ app.use("/uploads", express.static("uploads"));
 app.use("/likes", likeRouter);
 app.use("/comments", commentsRouter);
 app.use("/user", userRouter);
-app.use("/notification", notificationRouter)
+app.use("/notification", notificationRouter);
+app.use("/chat", chatRouter);
 
 initSocket(server);
 
