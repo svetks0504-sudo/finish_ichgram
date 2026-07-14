@@ -26,3 +26,6 @@ dist-ssr
 # node.js
 .env
 uploads/
+
+#my
+/problem.txt
