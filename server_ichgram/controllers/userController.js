@@ -75,27 +75,16 @@ export const searchUsers = async (req, res) => {
 
 export const chatUsers = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id)
-      .populate("following", "username fullName avatar")
-      .populate("followers", "username fullName avatar");
-
-    const users = [...user.following, ...user.followers];
-
-    const chatUsers = [];
-
-    for (const user of users) {
-      const exists = chatUsers.find(
-        (userChat) => userChat._id.toString() === user._id.toString(),
-      );
-      if (!exists) {
-        chatUsers.push(user);
-      }
-    }
+    const users = await User.find({
+      _id: { $ne: req.user._id },
+    })
+      .select("username fullName avatar")
+      .sort({ username: 1 });
 
     res.status(200).json({
       message: "Fetched users successfully!",
       success: true,
-      chatUsers,
+      chatUsers: users,
     });
   } catch (error) {
     res.status(500).json({

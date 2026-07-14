@@ -1,12 +1,12 @@
 .homeContainer{
-    padding: 4vw 0 1vw 5vw;
+    padding: 4vw 5vw 1vw 5vw;
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     gap: 2vw 3vw;
 }
 .postContainer{
-   width: 404px;
+   max-width: 404px;
    min-height: 717px;
    display: flex;
    flex-direction: column;
@@ -38,4 +38,14 @@
 }
 .greyFooter{
     color: rgba(115, 115, 115, 1);
+}
+
+@media (max-width: 900px){
+    .homeContainer{
+        justify-content: center;
+        align-items: center;
+    }
+    .homeContainer{
+        margin-top: 35px;
+    }
 }

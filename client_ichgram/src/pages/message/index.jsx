@@ -5,23 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles.module.css";
 import AvatarUni from "../../components/avatarUni";
 import { Link } from "react-router-dom";
-import { Avatar, Button, Flex } from "antd";
+import { Avatar, Button, Drawer, Flex } from "antd";
 import PunktDiv from "../../components/punktDiv";
 import TextArea from "antd/es/input/TextArea.js";
 import { openChat } from "../../redux/slices/chatSlice.js";
+import ChatLeftUsers from "../../components/chatLeftUsers";
 
 function Message() {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.user.usersMessage);
   const me = useSelector((state) => state.user.me);
 
   const [selectedUser, setSelectedUser] = useState(null);
-  const date = new Date();
   const [sendText, setSendText] = useState("");
   const [messages, setMessages] = useState([]);
   const conversation = useSelector((state) => state.chat.conversation);
   useEffect(() => {}, [conversation]);
   const messagesEndRef = useRef(null);
+  const [mobile, setMobile] = useState(window.innerHeight <= 900);
+  const [open, setOpen] = useState(false);
 
   //достаем юзеров
   useEffect(() => {
@@ -55,9 +56,11 @@ function Message() {
     };
   }, []);
 
-  //получить новие сообщения
+  //получить новие сообщения//при чем
   useEffect(() => {
     const handleMessage = (message) => {
+      if (message.conversationId !== conversation?._id) return;
+
       setMessages((prev) => [...prev, message]);
     };
     socket.on("receive-message", handleMessage);
@@ -65,7 +68,7 @@ function Message() {
     return () => {
       socket.off("receive-message", handleMessage);
     };
-  }, []);
+  }, [conversation?._id]);
 
   const openChatBtn = async (user) => {
     setSelectedUser(user);
@@ -84,13 +87,12 @@ function Message() {
 
   //заходим в кабинет и очищяем
   useEffect(() => {
-  if (!conversation?._id) return;
+    if (!conversation?._id) return;
 
-  setMessages([]);
+    setMessages([]);
 
-  socket.emit("join-room", conversation._id);
-
-}, [conversation?._id]);
+    socket.emit("join-room", conversation._id);
+  }, [conversation?._id]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -98,32 +100,46 @@ function Message() {
     });
   }, [messages]);
 
+  useEffect(() => {
+    //какой розмер окна
+    const resize = () => setMobile(window.innerWidth <= 900);
+    //сразу проверили какой розмер
+    resize();
+    //слушаем собитие
+    window.addEventListener("resize", resize);
+    //убираем слушателя
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <div className={styles.leftContainer}>
-        <h2 className={styles.topLeftConr}>{me?.username}</h2>
-        <div style={{ height: "100%" }}>
-          {users.map((user) => {
-            return (
-              <div
-                className={
-                  selectedUser?._id === user._id
-                    ? styles.activ
-                    : styles.flexUser
-                }
-                onClick={() => openChatBtn(user)}
-                key={user._id}
-              >
-                <Avatar
-                  style={{ width: "56px", height: "56px" }}
-                  src={`http://127.0.0.1:3333/uploads/${user.avatar}`}
-                />
-                <h4>{user.username}</h4>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    <div className={styles.allContaintMsg}>
+      {mobile ? (
+        <>
+          <Drawer
+            className={styles.drawer}
+            placement="left"
+            size={280}
+            open={open}
+            onClose={() => setOpen(false)}
+          >
+            <ChatLeftUsers
+              meUsNam={me?.username}
+              openChatBtn={openChatBtn}
+              selectedUserId={selectedUser?._id}
+              mobile={mobile}
+              setOpen={setOpen}
+            />
+          </Drawer>
+        </>
+      ) : (
+        <>
+          <ChatLeftUsers
+            meUsNam={me?.username}
+            openChatBtn={openChatBtn}
+            selectedUserId={selectedUser?._id}
+          />
+        </>
+      )}
       {selectedUser ? (
         <div className={styles.chatContainer}>
           <div className={styles.topMessage}>
@@ -134,6 +150,9 @@ function Message() {
               userId={selectedUser._id}
             />
             <h3>{selectedUser.username}</h3>
+            <button className={styles.burger} onClick={() => setOpen(!open)}>
+              New chat
+            </button>
           </div>
 
           <div className={styles.mainContainer}>
@@ -177,48 +196,65 @@ function Message() {
               </Link>
             </div>
 
-            <p className={styles.greyData}>
-              {date.toLocaleString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-              })}
-            </p>
             <div className={styles.messages}>
-              {messages.map((message) => (
-                <div
-                  key={message._id}
-                  className={
-                    message.sender === me._id
-                      ? styles.myMessage
-                      : styles.otherMessage
-                  }
-                >
-                  {message.sender === selectedUser._id && (
-                    <Avatar  size={28}  style={{ flexShrink: 0 }}
-                      src={`http://127.0.0.1:3333/uploads/${
-                        selectedUser.avatar
-                      }`}
-                    />
-                  )}
+              {messages.map((message, index) => {
+                const showDate =
+                  index === 0 ||
+                  new Date(message.createdAt).toDateString() !==
+                    new Date(messages[index - 1].createdAt).toDateString();
 
-                  <div
-                    className={
-                      message.sender === me._id ? styles.myDiv : styles.otherDiv
-                    }
-                  >
-                    {message.text}
+                return (
+                  <div key={message._id}>
+                    {showDate && (
+                      <p className={styles.greyData}>
+                        {new Date(message.createdAt).toLocaleString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
+                      </p>
+                    )}
+
+                    <div
+                      className={
+                        message.sender === me._id
+                          ? styles.myMessage
+                          : styles.otherMessage
+                      }
+                    >
+                      {message.sender === selectedUser._id && (
+                        <Avatar
+                          size={28}
+                          style={{ flexShrink: 0 }}
+                          src={`http://127.0.0.1:3333/uploads/${
+                            selectedUser.avatar
+                          }`}
+                        />
+                      )}
+                      <div
+                        className={
+                          message.sender === me._id
+                            ? styles.myDiv
+                            : styles.otherDiv
+                        }
+                      >
+                        {message.text}
+                      </div>
+                      {message.sender === me._id && (
+                        <Avatar
+                          size={28}
+                          style={{ flexShrink: 0 }}
+                          src={`http://127.0.0.1:3333/uploads/${me.avatar}`}
+                        />
+                      )}
+                    </div>
                   </div>
-                  {message.sender === me._id && (
-                    <Avatar   size={28}  style={{ flexShrink: 0 }}
-                      src={`http://127.0.0.1:3333/uploads/${me.avatar}`}
-                    />
-                  )}
-                </div>
-              ))}
+                );
+              })}
+
               <div ref={messagesEndRef} />
             </div>
             <div className={styles.inputContainer}>
@@ -241,8 +277,13 @@ function Message() {
         <div className={styles.emptyChat}>
           <div className={styles.emptyCircle}>💬</div>
           <h2>Welcome, {me?.username} 👋</h2>
-
           <p>Select a friend and start a conversation</p>
+          <button
+            className={styles.burgerWelcome}
+            onClick={() => setOpen(!open)}
+          >
+            New chat
+          </button>
         </div>
       )}
     </div>

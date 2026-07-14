@@ -1,0 +1,31 @@
+.leftContainer {
+  height: 100%;
+  width: 28vw;
+  border-right: 1px solid rgba(219, 219, 219, 0.6);
+  padding: 2.5vw 0 4vw 0;
+}
+.topLeftConr {
+  padding: 0 0 1vw 2vw;
+  margin-bottom: 3vw;
+}
+.flexUser {
+  display: flex;
+  align-items: center;
+  padding: 0.7vw 2.5vw;
+  gap: 1vw;
+  cursor: pointer;
+}
+.activ {
+  display: flex;
+  align-items: center;
+  padding: 0.7vw 2.5vw;
+  gap: 1vw;
+  background-color: rgba(239, 239, 239, 1);
+  cursor: pointer;
+}
+@media(max-width: 900px){
+  .leftContainer{
+     border-right: none;
+     width: 245px;
+  }
+}

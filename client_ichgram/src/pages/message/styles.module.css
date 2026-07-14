@@ -1,35 +1,14 @@
-.leftContainer {
+.allContaintMsg {
+  display: flex;
   height: 100%;
-  width: 28vw;
-  border-right: 1px solid rgba(219, 219, 219, 0.6);
-  padding: 2.5vw 0 4vw 0;
-}
-.topLeftConr {
-  padding: 0 0 1vw 2vw;
-  margin-bottom: 3vw;
-}
-.flexUser {
-  display: flex;
-  align-items: center;
-  padding: 0.7vw 2.5vw;
-  gap: 1vw;
-  cursor: pointer;
-}
-.activ {
-  display: flex;
-  align-items: center;
-  padding: 0.7vw 2.5vw;
-  gap: 1vw;
-  background-color: rgba(239, 239, 239, 1);
-  cursor: pointer;
 }
 .topMessage {
   display: flex;
   align-items: center;
   gap: 0.9vw;
-  height: 5vw;
+  height: 75px;
   width: 100%;
-  padding: 1vw;
+  padding: 15px;
   border-bottom: 1px solid rgba(219, 219, 219, 0.6);
 }
 .mainContainer {
@@ -58,16 +37,20 @@
 }
 .greyData {
   color: rgba(101, 103, 107, 0.9);
-  margin: 0 auto;
+  text-align: center;
   font-weight: 500;
+  padding: 16px;
 }
 .messages {
   flex: 1;
+  padding-top: 5vw;
+  padding-bottom: 15px;
 }
 .inputContainer {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-bottom: 15px;
 }
 .textareaMessage {
   flex: 1;
@@ -126,14 +109,55 @@
 .otherMessage {
   justify-content: flex-start;
 }
-.myDiv, .otherDiv {
+.myDiv,
+.otherDiv {
   border-radius: 15px;
   padding: 2vw 1vw;
+  max-width: 55%;
 }
 .myDiv {
   background-color: rgba(77, 0, 255, 1);
+  color: white;
 }
 .otherDiv {
   background-color: rgba(239, 239, 239, 1);
 }
+.burger {
+  visibility: hidden;
+}
+.burgerWelcome {
+  visibility: hidden;
+}
 
+@media (max-width: 900px) {
+  .topLeftConr {
+    margin-top: 40px;
+  }
+  .inputContainer {
+    margin-bottom: 50px;
+  }
+  .burger,
+  .burgerWelcome {
+    visibility: visible;
+    display: flex;
+    width: 90px;
+    height: 30px;
+    border: none;
+    color: #0095f6;
+    background-color: transparent;
+    cursor: pointer;
+    align-items: center;
+    font-size: 1.3rem;
+  }
+  .burger {
+    top: 5px;
+    right: 5px;
+    margin-left: auto;
+  }
+  .drawer :global(.ant-drawer-header-title) {
+    flex-direction: row-reverse;
+  }
+  .topMessage {
+    padding-left: 60px;
+  }
+}

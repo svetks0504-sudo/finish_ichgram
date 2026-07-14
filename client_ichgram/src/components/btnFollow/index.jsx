@@ -1,4 +1,5 @@
 import { Button } from "antd";
+import styles from "./styles.module.css";
 
 function BtnFollow({
   onClick,
@@ -11,12 +12,10 @@ function BtnFollow({
 }) {
   return (
     <Button
+      className={styles.btn}
       style={{
         background,
-        border: "none",
-        boxShadow: "none",
         color,
-        fontWeight: "600",
         padding: padding,
         width,
       }}

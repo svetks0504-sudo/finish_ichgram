@@ -43,7 +43,7 @@ function LikeCountContainer({ component, postId, margin }) {
 
   return (
     <div>
-      <div className={styles.countLike} style={{marginLeft: margin}}>
+      <div className={styles.countLike} style={{paddingLeft: margin}}>
         <Flex style={{ gap: "15px" }}>
           <img
             onClick={handleLike}

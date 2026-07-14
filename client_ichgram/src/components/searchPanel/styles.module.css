@@ -34,3 +34,10 @@
   border: none;
 
 }
+
+@media (max-width: 900px) {
+  .secondLeftWindow{
+   width: 270px; 
+   padding: 60px 10px;
+  }
+}

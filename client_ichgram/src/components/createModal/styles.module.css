@@ -10,8 +10,10 @@
 .postModal :global(.ant-modal) {
   width: 63vw !important;
   margin-top: 3vw;
+  height: 36vw !important;
   flex-wrap: wrap;
 }
+
 .modalTopFlexButtons {
   margin-left: auto;
   display: flex;
@@ -56,7 +58,7 @@
 }
 .modalContainer {
   display: flex;
-  height: 36vw;
+  height: 521px;
   width: 100%;
   align-items: stretch;
 }
@@ -65,7 +67,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-   flex: 0 0 40%;
+  flex: 0 0 40%;
   height: 100%;
   background-color: rgba(250, 250, 250, 1);
 }
@@ -78,13 +80,21 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  
+  width: 100%;
+  overflow: hidden;
+}
+.avatarContainer {
+  flex-shrink: 0;
+}
+.textareaContainer {
+  width: 100%;
+  flex-shrink: 0;
 }
 .textarea {
   padding: 16px 21px;
-  height: 19vw;
   resize: none;
   width: 100%;
+  height: 150px;
   overflow-y: auto;
   border: none;
   outline: none;
@@ -94,10 +104,47 @@
   width: 100%;
   padding: 10px;
   overflow-y: auto;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  min-height: 260px;
 }
+.modalRightBottom > div {
+  flex: 1;
+  min-height: 0;
+}
+
 .counter {
   display: flex;
   justify-content: end;
   padding: 0 10px;
   color: rgba(199, 199, 199, 1);
+}
+@media (max-width: 900px) {
+  .postModal :global(.ant-modal) {
+    width: auto !important;
+  }
+  .modalContainer {
+    max-height: 521px;
+  }
+  .modalRightBottom :global(.EmojiPickerReact) {
+  --epr-emoji-size: 28px;
+  --epr-category-navigation-button-size: 26px;
+}
+}
+@media (max-width: 600px) {
+  .modalRightBottom :global(.EmojiPickerReact) {
+  --epr-emoji-size: 28px;
+  --epr-category-navigation-button-size: 22px;
+}
+}
+@media (max-width: 400px) {
+  .modalRightBottom :global(.EmojiPickerReact) {
+  --epr-emoji-size: 24px;
+  --epr-category-navigation-button-size: 20px;
+}
+.textTopModal{
+  padding-left: 10%;
+}
 }

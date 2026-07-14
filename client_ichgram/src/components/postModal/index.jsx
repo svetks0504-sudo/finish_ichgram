@@ -82,7 +82,7 @@ function PostModal() {
       getContainer={false}
       styles={{
         body: {
-          height: "50vw",
+          maxHeight: "722px",
         },
       }}
       closeIcon={null}

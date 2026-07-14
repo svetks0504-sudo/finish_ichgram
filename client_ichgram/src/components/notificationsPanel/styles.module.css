@@ -52,3 +52,13 @@ border-radius: 20px;
   object-fit: cover;
   cursor: pointer;
 }
+.moreBtn{
+  padding: 5px;
+  bottom: auto;
+}
+@media (max-width: 900px){
+  .secondLeftWindow{
+    width: 280px;
+    padding-top: 50px;
+  }
+}

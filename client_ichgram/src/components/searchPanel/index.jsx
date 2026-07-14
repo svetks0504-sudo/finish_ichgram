@@ -26,7 +26,7 @@ function SearchPanel({ setActivePanel }) {
     <div className={styles.overlay}>
       <div className={styles.secondLeftWindow}>
         <Flex style={{ justifyContent: "space-between" }}>
-          <h1>Notifications</h1>
+          <h1>Search</h1>
           <button
             className={styles.closeBtn}
             onClick={() => setActivePanel(null)}
@@ -60,7 +60,7 @@ function SearchPanel({ setActivePanel }) {
           />
         </AutoComplete>
 
-        <h2 style={{marginBottom: "2vw"}}>Recent</h2>
+        <h2 style={{marginBottom: "2vw", padding: "50px 0 30px"}}>Recent</h2>
 
         {users.length !== 0 &&
           users.map((user) => {

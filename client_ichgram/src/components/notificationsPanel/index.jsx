@@ -2,12 +2,16 @@ import AvatarUni from "../../components/avatarUni";
 import styles from "./styles.module.css";
 import TimeGray from "../../components/timeGray";
 import { useSelector, useDispatch } from "react-redux";
-import { Flex } from "antd";
+import { Dropdown, Flex } from "antd";
 import { useEffect } from "react";
-import { getNotifications } from "../../redux/slices/notificationSlice";
+import {
+  getNotifications,
+  deleteNotification,
+} from "../../redux/slices/notificationSlice";
 import { useContext } from "react";
 import PostModalContext from "../../context/postModalContext.js";
 import { markAsRead } from "../../redux/slices/notificationSlice.js";
+import { EllipsisOutlined } from "@ant-design/icons";
 
 const BASE_URL = "http://127.0.0.1:3333";
 
@@ -40,6 +44,14 @@ function NotificationsPanel({ setActivePanel }) {
         <h3 className={styles.newText}>New</h3>
         <div className={styles.allNotification}>
           {notifications.map((notificat) => {
+            const items = [
+              {
+                key: "delete",
+                label: "Delete notification",
+                danger: true,
+                onClick: () => dispatch(deleteNotification(notificat._id)),
+              },
+            ];
             return (
               <div
                 className={
@@ -49,13 +61,17 @@ function NotificationsPanel({ setActivePanel }) {
               >
                 <Flex className={styles.notificatContainer}>
                   <div className={styles.flexNotific}>
-                    <div onClick={()=>{setActivePanel(null)}}>
-                    <AvatarUni
-                      width={"44px"}
-                      elem={notificat.sender.avatar}
-                      currentUserId={currentUserId}
-                      userId={notificat.sender._id}
-                    />
+                    <div
+                      onClick={() => {
+                        setActivePanel(null);
+                      }}
+                    >
+                      <AvatarUni
+                        width={"44px"}
+                        elem={notificat.sender.avatar}
+                        currentUserId={currentUserId}
+                        userId={notificat.sender._id}
+                      />
                     </div>
 
                     <div
@@ -76,6 +92,9 @@ function NotificationsPanel({ setActivePanel }) {
                       </div>
                     </div>
                   </div>
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <EllipsisOutlined className={styles.moreBtn} />
+                  </Dropdown>
                   {notificat.postId?.images?.length > 0 && (
                     <img
                       onClick={() =>

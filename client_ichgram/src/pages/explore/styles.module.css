@@ -32,3 +32,8 @@
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
   transition: 0.3s;
 }
+@media(max-width: 750px){
+  .exploreContainer{
+    margin-top: 35px;
+  }
+}

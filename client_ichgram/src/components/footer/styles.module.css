@@ -9,6 +9,8 @@
 }
 .linksContainer {
   border: none !important;
+  width: 100%;
+   justify-content: center;
 }
 .linksContainer :global(.ant-menu-item) {
   color: rgba(115, 115, 115, 1);

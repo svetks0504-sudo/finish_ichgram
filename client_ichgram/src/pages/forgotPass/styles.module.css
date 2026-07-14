@@ -50,3 +50,20 @@
     margin: 0 auto;
     padding: 1vw;
 }
+
+@media (max-width: 1100px) {
+  .containerForgotPass {
+    width: 40vw;
+  }
+  .bottomCont{
+    width: 40vw;
+  }
+}
+@media (max-width: 700px) {
+  .containerForgotPass {
+    width: 60vw;
+  }
+  .bottomCont{
+    width: 60vw;
+  }
+}

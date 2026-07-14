@@ -41,7 +41,6 @@ function CreateModal({ open, onClose }) {
       rootClassName={styles.postModal}
       getContainer={false}
       closeIcon={null}
-      width="63vw"
       footer={null}
       open={open}
       onCancel={onClose}
@@ -116,7 +115,7 @@ function CreateModal({ open, onClose }) {
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
-                  <>
+                  <div className={styles.textareaContainer}>
                     <textarea
                       maxLength={MAX_LENGTH}
                       className={styles.textarea}
@@ -126,7 +125,7 @@ function CreateModal({ open, onClose }) {
                     <div className={styles.counter}>
                       {field.value?.length || 0}/{MAX_LENGTH}
                     </div>
-                  </>
+                  </div>
                 )}
               />
             </div>
