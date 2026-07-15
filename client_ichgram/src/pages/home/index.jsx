@@ -12,6 +12,8 @@ import homeFooter from "../../assets/icons/homeFooter.png";
 import PostModalContext from "../../context/postModalContext.js";
 import { useContext } from "react";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Home() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.me);
@@ -71,7 +73,7 @@ function Home() {
               <img
                 onClick={() => openPost(elem)}
                 className={styles.imgPost}
-                src={`http://127.0.0.1:3333/uploads/${elem.images[0]}`}
+                src={`${BASE_URL}/uploads/${elem.images[0]}`}
               />
               <div className={styles.content}>
                 <LikeCountContainer

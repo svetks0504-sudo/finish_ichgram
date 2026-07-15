@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import EmojiPicker from "emoji-picker-react";
 import buttonUpload from "../../assets/icons/buttonUpload.png";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function CreateModal({ open, onClose }) {
   const {
     control,
@@ -104,7 +106,7 @@ function CreateModal({ open, onClose }) {
             <div className={styles.avatarContainer}>
               <Flex style={{ padding: "17px 19px", gap: "12px" }}>
                 <Avatar
-                  src={`http://127.0.0.1:3333/uploads/${me?.avatar}`}
+                  src={`${BASE_URL}/uploads/${me?.avatar}`}
                   size={28}
                 />
                 <h4>{me?.username}</h4>

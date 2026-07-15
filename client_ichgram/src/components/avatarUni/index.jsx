@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import PostModalContext from "../../context/postModalContext.js";
 import { useContext } from "react";
 
-const BASE_URL = "http://127.0.0.1:3333";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function AvatarUni({ elem, width, userId, currentUserId }) {
   const { closePost } = useContext(PostModalContext);

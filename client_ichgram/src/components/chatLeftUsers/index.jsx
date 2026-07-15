@@ -2,6 +2,8 @@ import { useSelector } from "react-redux";
 import styles from "./styles.module.css";
 import { Avatar } from "antd";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function ChatLeftUsers({
   setOpen,
   mobile,
@@ -28,7 +30,7 @@ function ChatLeftUsers({
             >
               <Avatar
                 style={{ width: "56px", height: "56px" }}
-                src={`http://127.0.0.1:3333/uploads/${user.avatar}`}
+                src={`${BASE_URL}/uploads/${user.avatar}`}
               />
               <h4>{user.username}</h4>
             </div>

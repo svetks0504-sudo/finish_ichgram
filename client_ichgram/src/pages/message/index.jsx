@@ -11,6 +11,8 @@ import TextArea from "antd/es/input/TextArea.js";
 import { openChat } from "../../redux/slices/chatSlice.js";
 import ChatLeftUsers from "../../components/chatLeftUsers";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Message() {
   const dispatch = useDispatch();
   const me = useSelector((state) => state.user.me);
@@ -229,7 +231,7 @@ function Message() {
                         <Avatar
                           size={28}
                           style={{ flexShrink: 0 }}
-                          src={`http://127.0.0.1:3333/uploads/${
+                          src={`${BASE_URL}/uploads/${
                             selectedUser.avatar
                           }`}
                         />
@@ -247,7 +249,7 @@ function Message() {
                         <Avatar
                           size={28}
                           style={{ flexShrink: 0 }}
-                          src={`http://127.0.0.1:3333/uploads/${me.avatar}`}
+                          src={`${BASE_URL}/uploads/${me.avatar}`}
                         />
                       )}
                     </div>

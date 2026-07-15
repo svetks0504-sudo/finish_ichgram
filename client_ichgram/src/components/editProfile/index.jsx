@@ -6,6 +6,8 @@ import styles from "./styles.module.css";
 import { updateProfile } from "../../redux/slices/userSlice.js";
 import imgLink from "../../assets/icons/imgLink.png";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function EditProfile({ setEditProfile }) {
   const {
     handleSubmit,
@@ -55,7 +57,7 @@ function EditProfile({ setEditProfile }) {
                 avatar
                   ? URL.createObjectURL(avatar)
                   : me.avatar
-                    ? `http://127.0.0.1:3333/uploads/${me.avatar}`
+                    ? `${BASE_URL}/uploads/${me.avatar}`
                     : undefined
               }
             />

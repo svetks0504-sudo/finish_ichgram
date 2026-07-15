@@ -1,0 +1,41 @@
+services:
+ mongo:
+  image: mongo:7
+  container_name: 
+  restart: unless-stopped
+  ports: 
+   - "27017:27017"
+  environment:
+   - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+  volumes:
+   -database_data:/data/db
+  healthcheck:
+   test: ["CMD-SHELL", "mongosh --quiet --eval /"db.adminComman('ping').ok/" | grep 1"]
+
+server:
+ build:
+  context: ./server_ichgram
+ container_name: server_ichgram
+ env_file:
+  - ./server_ichgram/.docker.env
+environment:
+ - PORT: 5000
+ - CLIENT_URL:
+ - MONGO_URL: 
+ports:
+ - 5000:5000
+dependens_on:
+ mongo:
+  condition: service-_helthy
+
+client:
+ build:
+  context: ./client
+  args:
+   - VITE_B
+ container_name: client_ichgram
+ ports:
+ - 3000:3000
+
+volumes:
+ database_data: 

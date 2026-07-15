@@ -13,7 +13,7 @@ import PostModalContext from "../../context/postModalContext.js";
 import { markAsRead } from "../../redux/slices/notificationSlice.js";
 import { EllipsisOutlined } from "@ant-design/icons";
 
-const BASE_URL = "http://127.0.0.1:3333";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function NotificationsPanel({ setActivePanel }) {
   const dispatch = useDispatch();

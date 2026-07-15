@@ -5,6 +5,8 @@ import styles from "./styles.module.css";
 import { useContext } from "react";
 import PostModalContext from "../../context/postModalContext";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Explore() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.allPosts.posts) || [];
@@ -30,7 +32,7 @@ function Explore() {
                 key={img}
                 onClick={() => openPost({ ...post, user: post.userId })}
                   className={styles.imgExplore} 
-                  src={`http://127.0.0.1:3333/uploads/${img}`}
+                  src={`${BASE_URL}/uploads/${img}`}
                   alt=""
                 />
             );

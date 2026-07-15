@@ -5,7 +5,7 @@ import imgLink from "../../assets/icons/imgLink.png";
 import { useContext } from "react";
 import PostModalContext from "../../context/postModalContext";
 
-const BASE_URL = "http://127.0.0.1:3333";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function ProfileComponent({ user, posts, arr }) {
   const [expanded, setExpanded] = useState(false);
@@ -18,7 +18,7 @@ function ProfileComponent({ user, posts, arr }) {
       <div className={styles.topProfile}>
         <Avatar
           style={{ height: "150px", width: "150px" }}
-          src={`http://127.0.0.1:3333/uploads/${user.avatar}`}
+          src={`${BASE_URL}/uploads/${user.avatar}`}
         />
 
         <div className={styles.rightTop}>
