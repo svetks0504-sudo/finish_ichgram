@@ -1,5 +1,5 @@
 import styles from "./styles.module.css";
-import background from "../../assets/images/background.png";
+import background from "../../assets/icons/background.png";
 
 function NotFound() {
   return (

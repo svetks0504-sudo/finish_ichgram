@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ImgLogo from "../../components/imgLogo";
 import BottomContainer from "../../components/bottomContainer";
+import  background from "../../assets/icons/background.png";
 
 const loginFields = [
   {
@@ -64,7 +65,7 @@ function Login() {
     <div className={styles.container}>
       <img
         className={styles.loginImg}
-        src="src/assets/images/background.png"
+        src= {background}
         alt="icons"
       />
       <div className={styles.rightContainer}>
