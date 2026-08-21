@@ -14,7 +14,6 @@ import cors from "cors";
 import http from "http";
 import initSocket from "./socket/index.js";
 
-dns.setDefaultResultOrder("ipv4first");
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 dotenv.config();
 

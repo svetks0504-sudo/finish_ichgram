@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
-import dns from "dns";
 
 dotenv.config();
 
@@ -121,12 +120,8 @@ export const forgotPassUser = async (req, res) => {
       expiresIn: "15m",
     });
 
-    const dnsResult = await dns.promises.resolve4("smtp.gmail.com");
-
     const transporter = nodemailer.createTransport({
-      host: dnsResult[0],
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASS,
