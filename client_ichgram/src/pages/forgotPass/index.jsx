@@ -7,6 +7,7 @@ import Btn from "../../components/button";
 import { forgotPass } from "../../redux/slices/authSlice";
 import OrElement from "../../components/orElement";
 import { Link } from "react-router-dom";
+import  background from "../../assets/icons/background.png";
 
 const passFogot = [
   {
@@ -42,7 +43,7 @@ function ForgotPass() {
       <div className={styles.containerForgotPass}>
         <img
           className={styles.imgTroubleloggingin}
-          src="src/assets/icons/imgTroubleloggingin_.png"
+          src={background}
           alt="images"
         />
         <h3>Trouble logging in?</h3>

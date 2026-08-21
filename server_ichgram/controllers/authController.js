@@ -120,6 +120,10 @@ export const forgotPassUser = async (req, res) => {
       expiresIn: "15m",
     });
 
+    const dnsResult = await dns.promises.resolve4("smtp.gmail.com");
+    console.log("GMAIL IPV4:", dnsResult);
+    м;
+
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
