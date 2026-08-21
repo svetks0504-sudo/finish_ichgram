@@ -108,9 +108,9 @@ export const forgotPassUser = async (req, res) => {
         message: "Email or username is required!",
       });
     }
-    const user = await User.findOne({ 
-      $or: [{username: login}, {email: login}]
-     });
+    const user = await User.findOne({
+      $or: [{ username: login }, { email: login }],
+    });
     if (!user)
       return res.status(404).json({
         message: "User not found!",
@@ -121,7 +121,9 @@ export const forgotPassUser = async (req, res) => {
     });
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASS,
@@ -159,7 +161,7 @@ export const resetPassUser = async (req, res) => {
         success: false,
       });
     }
-    if(password !== passwordRepeat){
+    if (password !== passwordRepeat) {
       return res.status(400).json({
         message: "Passwords do not match!",
         success: false,
