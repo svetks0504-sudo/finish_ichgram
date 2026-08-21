@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import dns from "dns";
 import connectDB from "./db/index.js";
 import authRouter from "./routes/auth.js";
 import postRouter from "./routes/post.js";
@@ -13,6 +14,7 @@ import cors from "cors";
 import http from "http";
 import initSocket from "./socket/index.js";
 
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 dotenv.config();
 
 const app = express();

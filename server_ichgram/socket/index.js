@@ -2,9 +2,15 @@ import { Server } from "socket.io";
 import Message from "../models/Message.js";
 
 const initSocket = (server) => {
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://finish-ichgram.vercel.app",
+  ];
   const io = new Server(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: allowedOrigins,
+      methods: ["GET", "POST"],
+      credentials: true,
     },
   });
 
@@ -12,7 +18,7 @@ const initSocket = (server) => {
   io.on("connection", (socket) => {
     console.log("Socket connected:", socket.id);
 
-    //следим
+    //следим (приєднуємо користувача до його кімнати)
     socket.on("join-user", (userId) => {
       socket.userId = userId;
       socket.join(userId);
